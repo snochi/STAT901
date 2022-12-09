@@ -1,0 +1,229 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Order Statistics}
+
+    Fix a probability space $\left( \Omega,\mF,\PP \right)$ and fix a random variable $X$ on $\left( \Omega,\mF,\PP \right)$.
+    
+    \subsection{Expectation}
+
+    \begin{definition}{\textbf{Expectation} of a Random Variable}
+        We define the \emph{expectation} of $X$, denoted as $\EE\left( X \right)$, by
+        \begin{equation*}
+            \EE\left( X \right) = \int Xd\PP.
+        \end{equation*}
+    \end{definition}
+
+    \np By the definition of integration,
+    \begin{equation*}
+        \EE\left( X \right) = \EE\left( X^+ \right) - \EE\left( X^- \right).
+    \end{equation*}
+    Using this as the motivation, we define $\EE\left( X \right) = \infty$ in case $\EE\left( X^+ \right)=\infty, \EE\left( X^- \right)<\infty$ and $\EE\left( X \right) = -\infty$ in case $\EE\left( X^+ \right)<\infty, \EE\left( X^- \right)=\infty$.
+
+    In case $\EE\left( X^+ \right)=\EE\left( X^- \right)=\infty$, we leave $\EE\left( X \right)$ as undefined.
+    
+    \begin{prop}{Linearity of Expectation}
+        Let $X,Y:\Omega\to\R$ be random variables and let $a\in\R$. Then
+        \begin{equation*}
+            \EE\left( aX+Y \right) = a\EE\left( X \right) + \EE\left( Y \right).
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+
+    \begin{prop}{Monotonicity of Expectation}
+        Let $X,Y:\Omega\to\R$ be random variables with $X\geq Y$ almost surely. Then
+        \begin{equation*}
+            \EE\left( X \right)\geq\EE\left( Y \right).
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+
+    \begin{theorem}{Change of Variable}
+        Let $X$ be a random variable with distribution $\mu$ and let $f$ be a measurable function such that
+        \begin{equation*}
+            f\geq 0 \text{ or } \EE\left( \left| f\left( X \right) \right| \right) < \infty.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \EE\left( f\left( X \right) \right) = \int fd\mu.
+        \end{equation*}
+    \end{theorem}
+
+    \begin{proof}
+        \begin{case}
+            \textit{Consider $f=\chi_B$ for some measurable $B$.}
+
+            We have
+            \begin{equation*}
+                \EE\left( f\left( X \right) \right) = \EE\left( \chi_B\left( X \right) \right) = \PP\left( X\in B \right) = \mu\left( B \right) = \int\chi_Bd\mu = \int fd\mu.
+            \end{equation*}
+        \end{case}
+
+        \begin{case}
+            \textit{Suppose $f$ is a simple function, say
+                \begin{equation*}
+                    f = \sum^{n}_{k=1}c_k\chi_{B_k}
+                \end{equation*}
+                for some $c_1,\ldots,c_n\in\R$ and measurable $B_1,\ldots,B_n$.
+            }
+
+            Then
+            \begin{equation*}
+                \EE\left( f\left( X \right) \right) = \EE\left( \sum^{n}_{k=1}c_k\chi_{B_k}\left( X \right) \right) = \sum^{n}_{k=1} c_k\EE\left( \chi_{B_k}\left( X \right) \right) = \sum^{n}_{k=1}c_k\int\chi_{B_k}d\mu = \int fd\mu.
+            \end{equation*}
+        \end{case}
+
+        \begin{case}
+            \textit{Suppose $f$ is a nonnegative $\mu$-measurable function.}
+
+            Let $\left( f_{n} \right)^{\infty}_{n=1}$ be a sequence of simple functions such that $f_n\nearrow f$ pointwise. Then by the MCT,
+            \begin{equation*}
+                \EE\left( f\left( X \right) \right) = \lim_{n\to\infty} \EE\left( f_n\left( X \right) \right) = \lim_{n\to\infty}\int f_nd\mu = \int fd\mu.
+            \end{equation*}
+        \end{case}
+
+        \begin{case}
+            \textit{Suppose $f$ is $\mu$-integrable.}
+
+            Then $f=f^+-f^-$, so that
+            \begin{equation*}
+                \EE\left( f\left( X \right) \right) = \EE\left( f^+\left( X \right) \right) - \EE\left( f^-\left( X \right) \right) = \int f^+d\mu - \int f^-d\mu = \int fd\mu.
+            \end{equation*}
+        \end{case}
+    \end{proof}
+
+    \begin{cor}{}
+        Let $X$ be a random variable with density of $f$. Then
+        \begin{equation*}
+            \EE\left( g\left( X \right) \right) = \int g\left( x \right)f\left( x \right)dx.
+        \end{equation*}
+    \end{cor}	
+
+    \rruleline
+
+    \subsection{Moments and Variation}
+    
+
+    \begin{definition}{\textbf{$k$th Moment}, \textbf{Variation} of a Random Variable}
+        Let $X$ be a random variable. We call $\EE\left( X^k \right)$ the \emph{$k$th moment} of $X$.
+
+        We define the \emph{variation} of $X$, denoted as $\var\left( X \right)$, by
+        \begin{equation*}
+            \var\left( X \right) = \EE\left( \left( X-\EE\left( X \right) \right)^{2} \right).
+        \end{equation*}
+    \end{definition}
+
+    \np Note that
+    \begin{equation*}
+        \var\left( X \right) = \EE\left( \left( X-\EE\left( X \right) \right)^{2} \right) = \cdots = \EE\left( X^{2} \right) - \EE\left( X \right)^{2}.
+    \end{equation*}
+
+    \begin{example}{Bernoulli Distribution}
+        We say a random variable $X$ is \emph{Bernoulli} with probability $p\in\left[ 0,1 \right]$ if
+        \begin{equation*}
+            \PP\left( X=1 \right) = p, \PP\left( X=0 \right) = 1-p.
+        \end{equation*}
+        Hence
+        \begin{equation*}
+            \EE\left( X \right) = p
+        \end{equation*}
+        and
+        \begin{equation*}
+            \var\left( X \right) = p-p^{2} = p\left( 1-p \right),
+        \end{equation*}
+        by using the fact that $X^{2}=X$.
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{Poisson Distribution}
+        We say a random variable $X$ is \emph{Poisson} with parameter $\lambda>0$, written as $X\sim\poidis\left( \lambda \right)$, if
+        \begin{equation*}
+            \PP\left( X=k \right) = e^{-\lambda} \frac{\lambda^k}{k!}, \hspace{1cm}\forall k\in\N\cup\left\lbrace 0 \right\rbrace.
+        \end{equation*}
+        Note that
+        \begin{equation*}
+            \begin{aligned}
+                \EE\left( X\left( X-1 \right)\cdots\left( X-k+1 \right) \right) & = \sum^{\infty}_{j=0} j\left( j-1 \right)\cdots\left( j-k+1 \right) e^{-\lambda} \frac{\lambda^j}{j!} \\
+                                                                                & = \sum^{\infty}_{j=k} j\left( j-1 \right)\cdots\left( j-k+1 \right) e^{-\lambda} \frac{\lambda^j}{j!} \\
+                                                                                & = \sum^{\infty}_{j=k} e^{-\lambda} \frac{\lambda^j}{\left( j-k \right)!} \\
+                                                                                & = \sum^{\infty}_{n=0} e^{-\lambda} \frac{\lambda^{k+n}}{n!} \\
+                                                                                & = \lambda^k\sum^{\infty}_{n=0} \underbrace{e^{-\lambda} \frac{\lambda^n}{n!}}_{\text{pmf of $\poidis\left( \lambda \right)$}} \\
+                                                                                & = \lambda^k.
+            \end{aligned} 
+        \end{equation*}
+        Consequently,
+        \begin{equation*}
+            \EE\left( X \right) = \lambda, \EE\left( X\left( X-1 \right) \right) = \lambda^{2},
+        \end{equation*}
+        so that
+        \begin{equation*}
+            \EE\left( X^{2} \right) = \EE\left( X\left( X-1 \right) \right)+\EE\left( X \right) = \lambda^{2}+\lambda.
+        \end{equation*}
+        Thus
+        \begin{equation*}
+            \var\left( X \right) = \EE\left( X^{2} \right) - \EE\left( X \right)^{2} = \lambda.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{Exponential Distribution}
+        We say a random variable $X$ is \emph{Exponential} with parameter $\lambda>0$, written as $X\sim\expdis\left( \lambda \right)$, if
+        \begin{equation*}
+            f\left( x \right) = \lambda e^{-\lambda x},\hspace{1cm}\forall x\geq 0,
+        \end{equation*}
+        is the pdf of $X$. Then
+        \begin{equation*}
+            \EE\left( X^k \right) = \int^{\infty}_{0} x^k\lambda e^{-\lambda x}dx = \frac{1}{\lambda^k} \int^{\infty}_{0}y^k e^{-y}dy = \frac{1}{\lambda^k}\Gamma\left( k+1 \right) = \frac{1}{\lambda^k}k!.
+        \end{equation*}
+        In particular,
+        \begin{equation*}
+            \EE\left( X \right) = \frac{1}{\lambda}
+        \end{equation*}
+        and
+        \begin{equation*}
+            \var\left( X \right) = \frac{1}{\lambda^{2}}.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+
+\end{document}

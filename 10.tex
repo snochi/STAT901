@@ -1,0 +1,373 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Conditional Expectation}
+    
+    \subsection{Conditional Expectation}
+    
+    \begin{definition}{\textbf{Conditional Expectation} of a Random Variable Given a Sub-$\sigma$-field}
+        Let $\left( \Omega,\mF,\PP \right)$ be a probability space and let $X$ be a random variable on it, with $\EE\left( \left| X \right| \right)<\infty$. Let $\mG$ be a sub-$\sigma$-field of $\mF$. Then the \emph{conditional expectation} of $X$ given $\mG$, denoted as $\EE\left( X|\mG \right)$, is a random variable such that
+        \begin{enumerate}
+            \item $\EE\left( X|\mG \right)$ is $\mG$-measurable; and
+            \item for any $A\in\mG$,
+                \begin{equation*}
+                    \int_AXd\PP = \int_A\EE\left( X|\mG \right)d\PP.
+                \end{equation*}
+        \end{enumerate}
+    \end{definition}
+
+    \np To show conditional expectation exists, we recall the Radon-Nikodym theorem from measure theory.
+
+    \begin{theorem}{Radon-Nikodym Theorem}
+        Let $\left( X,\mA \right)$ be a measurable space and let $\mu,\nu$ be $\sigma$-finite measures on it, such that $\nu\ll\mu$. Then there exists $f\in\Lone\left( X,\mA,\mu \right)$ such that
+        \begin{equation*}
+            \int_Afd\mu = \nu\left( A \right),\hspace{2cm}\forall A\in\mA.
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+
+    \np We often denote $f$ by $\frac{d\nu}{d\mu}$ and is called the Radon-Nikodym derivative or density.
+    
+    \begin{prop}{}
+        Conditional expectaion exists and is unique almost surely.
+    \end{prop}
+
+    \begin{proof}[Proof of Existence]\qedplacedtrue
+        It suffices to consider the case where $X\geq 0$.
+
+        Let $\mu=\PP|_{\mG}$ and let
+        \begin{equation*}
+            \nu\left( A \right) = \int_AXd\PP, \hspace{2cm}\forall A\in\mG.
+        \end{equation*}
+        Then $\mu\left( A \right) = 0 \implies \PP\left( A \right) = 0 \implies \nu\left( A \right) = 0$, so that $\nu\ll\mu$. So by the Radon-Nikodym theorem, there exists $Y = \frac{d\nu}{d\mu}$ such that
+        \begin{equation*}
+            \int_AXd\PP = \nu\left( A \right) = \int_AYd\PP, \hspace{2cm}\forall A\in\mG.
+        \end{equation*}
+    \end{proof}
+    
+    \begin{proof}[Proof of Uniqueness]
+        Assume $Y,Y'$ are conditional expectations but $\PP\left( Y\neq Y' \right)>0$. Without loss of generality, assume $A = \left\lbrace Y>Y' \right\rbrace$ has positive probability. Since $Y,Y'$ are $\mG$-measurable, $Y,Y'\in\mG$. But
+        \begin{equation*}
+            \int_AYd\PP = \int_AXd\PP = \int_AY'd\PP,
+        \end{equation*}
+        which is a contradiction.
+    \end{proof}
+    
+    \begin{prop}{Properties of Conditional Expectation}
+        Let $\left( \Omega,\mF,\PP \right)$ be a probability space and let $\mG\subseteq\mF$ be a sub-$\sigma$-field of $\mF$.
+        \begin{enumerate}
+            \item For random variables $X,Y$ on $\left( \Omega,\mF,\PP \right)$ and $a\in\R$,
+                \begin{equation*}
+                    \EE\left( aX+Y|\mG \right) = a\EE\left( X|\mG \right) + \EE\left( Y|\mG \right).
+                \end{equation*}
+            \item If $X,Y$ are random variables with $X\leq Y$ almost surely, then
+                \begin{equation*}
+                    \EE\left( X|\mG \right) \leq \EE\left( Y|\mG \right).
+                \end{equation*}
+
+            \item If $\left( X_{n} \right)^{\infty}_{n=1}$ is an increasing sequence of nonnegative random variables converging almost surely to $X$ with $\EE\left( X \right)<\infty$, then
+                \begin{equation*}
+                    \EE\left( X_n|\mG \right) \uparrow \EE\left( X|\mG \right).
+                \end{equation*}
+        \end{enumerate}
+    \end{prop}
+
+    \rruleline
+
+    \np In case $\mG=\mF$, we have
+    \begin{equation*}
+        \EE\left( X|\mF \right) = X \text{ almost surely}.
+    \end{equation*}
+    
+    \begin{theorem}{}
+        Let $\left( \Omega,\mF,\PP \right)$ be a probability space and let $\mF_1\subseteq\mF_2$ be sub-$\sigma$-fields of $\mF$. Let $X$ be a random variable.
+        \begin{enumerate}
+            \item $\EE\left( \EE\left( X|\mF_1 \right)|\mF_2 \right) = \EE\left( X|\mF_1 \right)$.
+            \item $\EE\left( \EE\left( X|\mF_2 \right)|\mF_1 \right) = \EE\left( X|\mF_1 \right)$.
+        \end{enumerate}
+    \end{theorem}
+
+    \begin{proof}
+        Proof of (a) is trivial.
+
+        For $A\in\mF_1$, $A\in\mF_2$ as well, so that
+        \begin{equation*}
+            \int_A\EE\left( X|\mF_1 \right)d\PP = \int_AXd\PP = \int_A\EE\left( X|\mF_2 \right)d\PP.
+        \end{equation*}
+        Hence
+        \begin{equation*}
+            \EE\left( \EE\left( X|\mF_2 \right)|\mF_1 \right) = \EE\left( X|\mF_1 \right).
+        \end{equation*}
+    \end{proof}
+
+    \np In words, note that the \textit{fineness} of $\mF_1,\mF_2$ can be thought as the \textit{resolution} through which we observe the space $\left( X,\mF,\PP \right)$. Hence, no matter the order which we observe the space, we always end up with the worst resolution $\mF_1$.
+
+    \np In particular,
+    \begin{equation*}
+        \EE\left( \EE\left( X|\mG \right)|\left\lbrace \emptyset,\Omega \right\rbrace \right) = \EE\left( X|\left\lbrace \emptyset,\Omega \right\rbrace \right) = \EE\left( X \right)
+    \end{equation*}
+    for any sub-$\sigma$-field $\mG\subseteq\mF$, which is called the \textit{law of iterated expectation}.
+
+    \begin{theorem}{}
+        Let $\left( \Omega,\mF,\PP \right)$ and let $\mG\subseteq\mF$ be a sub-$\sigma$-field. If $X,Y$ are random variables such that $X,XY$ have finite expectation, then
+        \begin{equation*}
+            \EE\left( XY|\mG \right) = X\EE\left( Y|\mG \right).
+        \end{equation*}
+    \end{theorem}
+
+    \begin{proof}
+        It suffices to check that $X\EE\left( Y|\mG \right)$ satisfies the definition of conditional expectation for $\EE\left( Y|\mG \right)$. By assumption, it is clear that $X\EE\left( Y|\mG \right)$ is $\mG$-measurable.
+
+        For $A,B\in\mG$,
+        \begin{equation*}
+            \int_A \chi_B\EE\left( Y|\mG \right)d\PP = \int_{A\cap B} \EE\left( Y|\mG \right)d\PP = \int_{A\cap B} Yd\PP = \int_A \chi_BYd\PP.
+        \end{equation*}
+        It follows by induction that the result holds when $X$ is a simple function. Then by using simple approximation, we can prove the result for nonnegative random variables, which can be easily extend for general random variables.
+    \end{proof}
+
+    \begin{theorem}{}
+        Let $\left( \Omega,\mF,\PP \right)$ be a measure space and let $X,Y$ be independent random variables with $\EE\left( \left| Y \right| \right)<\infty$. Then
+        \begin{equation*}
+            \EE\left( Y|X \right) = \EE\left( Y \right)
+        \end{equation*}
+        almost surely, where $\EE\left( Y|X \right) = \EE\left( Y|\sigma\left( X \right) \right)$.
+    \end{theorem}
+
+    \clearpage
+
+    \begin{proof}
+        Recall that
+        \begin{equation*}
+            \sigma\left( X \right) = \left\lbrace X^{-1}\left( B \right) :B\in\mF \right\rbrace.
+        \end{equation*}
+        This means, for $A\in\sigma\left( X \right)$,
+        \begin{equation*}
+            \int_A Yd\PP = \int Y\chi_Ad\PP = \EE\left( Y\chi_A \right) = \EE\left( Y \right)\EE\left( \chi_A \right),
+        \end{equation*}
+        since $X,Y$ are independent. But
+        \begin{equation*}
+            \EE\left( Y \right)\EE\left( \chi_A \right) = \int_A\EE\left( Y \right)d\PP,
+        \end{equation*}
+        so that
+        \begin{equation*}
+            \int_A\EE\left( Y|X \right)d\PP = \int_A Yd\PP = \int_A\EE\left( Y \right)d\PP, \hspace{2cm}\forall A\in\sigma\left( X \right),
+        \end{equation*}
+        which means $\EE\left( Y|X \right) = \EE\left( Y \right)$ almost surely.
+    \end{proof}
+    
+    \begin{theorem}{Jensen's Inequality - Conditional Version}
+        Let $\left( \Omega,\mF,\PP \right)$ be a probability space and let $\mG\subseteq\mF$ be a sub-$\sigma$-field. Let $X$ be a random variable and let $\phi:\R\to\R$ be a convex function such that $\EE\left( \left| X \right| \right),\EE\left( \left| \phi\left( X \right) \right| \right)<\infty$. Then
+        \begin{equation*}
+            \phi\left( \EE\left( X|\mG \right) \right) \leq \EE\left( \phi\left( X \right)|\mG \right).
+        \end{equation*}
+    \end{theorem}
+
+    \begin{proof}
+        Define
+        \begin{equation*}
+            S = \left\lbrace \left( a,b \right)\in\R^{2}: \forall x\in\R \left[ ax+b\leq\phi\left( x \right) \right] \right\rbrace.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \phi\left( x \right) = \sup_{\left( a,b \right)\in S} ax+b
+        \end{equation*}
+        Now, if $\phi\left( x \right)\geq ax+b$ for all $x\in\R$, then
+        \begin{equation*}
+            \phi\left( X \right)\geq aX+b,
+        \end{equation*}
+        so that
+        \begin{equation*}
+            \EE\left( \phi\left( X \right)|\mG \right) \geq a\EE\left( X|\mG \right) + b.
+        \end{equation*}
+        Hence by taking supremum over $S$,
+        \begin{equation*}
+            \EE\left( \phi\left( X \right)|\mG \right) \geq \phi\left( \EE\left( X|\mG \right) \right).
+        \end{equation*}
+    \end{proof}
+    
+    \begin{cor}{}
+        Let $\left( \Omega,\mF,\PP \right)$ be a probability space and let $\mG\subseteq\mF$ be a sub-$\sigma$-field. Then
+        \begin{equation*}
+            \left\lVert \EE\left( X|\mG \right)\right\rVert_p \leq \left\lVert X\right\rVert_p
+        \end{equation*}
+        for $p\geq 1$.
+    \end{cor}	
+    
+    \begin{proof}
+        It suffices to note that norms are convex, so that
+        \begin{equation*}
+            \left\lVert \EE\left( X|\mG \right)\right\rVert_p \leq  \EE\left( \left\lVert X\right\rVert_p|\mG \right) = \left\lVert X\right\rVert_p.
+        \end{equation*}
+    \end{proof}
+    
+    \subsection{Conditional Expectation as a Projection}
+    
+    \begin{prop}{}
+        Let $\left( \Omega,\mF,\PP \right)$ be a probability space and let $X$ be a $\LLL^2$ random variable on it. Then for any sub-$\sigma$-field $\mG\subseteq\mF$ and a random variable $Y$ on $\left( \Omega,\mG,\PP|_{\mG} \right)$,
+        \begin{equation*}
+            \cov\left( X-\EE\left( X|\mG \right), Y \right) = 0.
+        \end{equation*}
+    \end{prop}
+
+    \begin{proof}
+        Observe that
+        \begin{equation*}
+            \EE\left( X-\EE\left( X|\mG \right) \right) = \EE\left( X \right)-\EE\left( X \right) = 0,
+        \end{equation*}
+        so it remains to show that
+        \begin{equation*}
+            \EE\left( \left( X-\EE\left( X|\mG \right) \right)Y \right) = 0.
+        \end{equation*}
+        Indeed,
+        \begin{equation*}
+            \EE\left( \left( X-\EE\left( X|\mG \right) \right)Y \right) = \EE\left( \EE\left( \left( X-\EE\left( X|\mG \right) \right)Y \right) \right) = \EE\left( Y\EE\left( X-\EE\left( X|\mG \right)|\mG \right) \right) = \EE\left( Y \cdot 0 \right) = 0.
+        \end{equation*}
+    \end{proof}
+
+    \begin{cor}{}
+        Consider the setting of Proposition 10.8. $X,\EE\left( X|\mG \right)$ are uncorrelated.
+    \end{cor}	
+
+    \rruleline
+    
+    \begin{theorem}{}
+        Let $X\in\LLL^2\left( \Omega,\mF,\PP \right)$ and let $Z\in\LLL^2\left( \Omega,\mG,\PP|_{\mG} \right)$ where $\mG\subseteq\mF$. Then
+        \begin{equation*}
+            \EE\left( \left( X-\EE\left( X|\mG \right) \right)^{2} \right) \leq \EE\left( \left( X-Z \right)^{2} \right).
+        \end{equation*}
+    \end{theorem}
+
+    \begin{proof}
+        Observe that
+        \begin{equation*}
+            \EE\left( \left( X-Z \right)^{2} \right) = \EE\left( \left( \left( X-\EE\left( X|\mG \right) \right) + \left( \EE\left( X|\mG \right)-Z \right) \right)^{2} \right).
+        \end{equation*}
+        We have seen that $Z-\EE\left( X|\mG \right), \EE\left( X|\mG \right)-Z$ are uncorrelated. It follows that
+        \begin{equation*}
+            \EE\left( \left( X-Z \right)^{2} \right) = \EE\left( \left( X-\EE\left( X|\mG \right) \right)^{2} \right) + \EE\left( \left( \EE\left( X|\mG \right)-Z \right)^{2} \right) \geq \EE\left( \left( X-\EE\left( X|\mG \right) \right)^{2} \right).
+        \end{equation*}
+    \end{proof}
+
+    \begin{cor}{Wald's Identity}
+        Let $X_1,X_2,\ldots$ be iid $\Lone$ random variables and let $N$ be a nonnegative integer-valued random variable with $\EE\left( N \right)<\infty$ independent of $X_1,X_2,\ldots$. Then
+        \begin{equation*}
+            \EE\left( \sum^{N}_{n=1}X_n \right) = \EE\left( X_1 \right)\EE\left( N \right).
+        \end{equation*}
+    \end{cor}
+
+    \begin{proof}
+        Observe that
+        \begin{equation*}
+            \EE\left( \sum^{N}_{n=1}X_n \right) = \EE\left( \EE\left( \sum^{N}_{n=1}X_n|N \right) \right) = \EE\left( N\EE\left( X_1 \right) \right) = \EE\left( N \right)\EE\left( X_1 \right),
+        \end{equation*}
+        since, when $N=k$,
+        \begin{equation*}
+            \EE\left( \sum^{N}_{n=1}X_n|N=k \right) = \EE\left( \sum^{k}_{n=1}X_n |N=k \right) = \EE\left( \sum^{k}_{n=1}X_n \right) = k\EE\left( X_1 \right) = N\EE\left( X_1 \right).
+        \end{equation*}
+    \end{proof}
+    
+    \begin{cor}{Evve's Law}
+        Let $X,Y$ be random variables with $\EE\left( X^{2} \right)<\infty$. Define \emph{conditional variance}
+        \begin{equation*}
+            \var\left( X|Y \right) = \EE\left( \left( X-\EE\left( X|Y \right) \right)^{2}|Y \right).
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \var\left( X \right) = \EE\left( \var\left( X|Y \right) \right) + \var\left( \EE\left( X|Y \right) \right).
+        \end{equation*}
+    \end{cor}	
+
+    \begin{proof}
+        Note that
+        \begin{align*}
+            \var\left( X \right) & = \EE\left( \left( X-\EE\left( X \right) \right)^{2} \right) = \EE\left( \left( \left( X-\EE\left( X|Y \right) \right) + \left( \EE\left( X|Y \right)-\EE\left( X \right) \right) \right)^{2} \right) \\
+                                 & = \EE\left( \left( X-\EE\left( X|Y \right) \right)^{2} \right) + \EE\left( \left( \EE\left( X|Y \right)-\EE\left( X \right) \right)^{2} \right) = \EE\left( \EE\left( \left( X-\EE\left( X|Y \right) \right)^{2}|Y \right) \right) + \EE\left( \left( \EE\left( X|Y \right)-\EE\left( \EE\left( X|Y \right) \right) \right)^{2} \right) \\
+                                 & = \EE\left( \var\left( X|Y \right) \right) + \var\left( \EE\left( X|Y \right) \right).
+        \end{align*} 
+    \end{proof}
+    
+    \np Let $X_1,X_2,\ldots$ be iid random variables andl let $N$ be a nonnegative integer-valued random variable independent of $X_1,X_2,\ldots$. We would like to know about the distribution of $Y = \sum^{N}_{n=1} SX_n$.
+
+    \begin{definition}{\textbf{Generating Function} of a Nonnegative Random Variable}
+        The \emph{generating function} of a nonnegative integer-valued random variable $Z$ is defined as
+        \begin{equation*}
+            g_Z\left( t \right) = \EE\left( t^Z \right) = \sum^{\infty}_{n=0} \PP\left( Z=n \right)t^n.
+        \end{equation*}
+    \end{definition}
+
+    \np Consider the characteristic function of $Y$:
+    \begin{equation*}
+        \phi_Y\left( t \right) = \EE\left( e^{itY} \right) = \EE\left( e^{it\sum^{N}_{n=1}X_n} \right) = \EE\left( \EE\left( e^{it\sum^{N}_{n=1}X_n}|N \right) \right), \hspace{2cm}\forall t\in\R.
+    \end{equation*}
+    When $N=k$,
+    \begin{equation*}
+        \EE\left( e^{it\sum^{N}_{n=1}X_n}|N=k \right) = \EE\left( e^{it\sum^{k}_{n=1}X_n}|N=k \right) = \EE\left( e^{it\sum^{k}_{n=1}X_n} \right) = \EE\left( e^{itX_1} \right)^k = \phi_{X_1}\left( t \right)^k, \hspace{2cm}\forall t\in\R.
+    \end{equation*}
+    It follows that
+    \begin{equation*}
+        \phi_Y\left( t \right) = \EE\left( \phi_{X_1}\left( t \right)^N \right) = \phi_N\left( \phi_{X_1}\left( t \right) \right), \hspace{2cm}\forall t\in\R.
+    \end{equation*}
+    
+    \begin{example}{}
+        Suppose $X_1,X_2,\ldots\overset{\text{iid}}{\sim}\expdis\left( \lambda \right)$ and let $N\sim\geodis\left( p \right)$, where $N$ is independent of $X_1,X_2,\ldots$. Consider
+        \begin{equation*}
+            Y = \sum^{N}_{n=1}X_n.
+        \end{equation*}
+        Observe that
+        \begin{equation*}
+            \phi_{X_1}\left( t \right) = \frac{\lambda}{\lambda-it}, g_N\left( t \right) = \frac{pt}{1-\left( 1-p \right)t}, \hspace{2cm}\forall t\in\R.
+        \end{equation*}
+        This means
+        \begin{equation*}
+            \phi_Y\left( t \right) = \phi_N\left( \phi_{X_1}\left( t \right) \right) = \frac{p \frac{\lambda}{\lambda-it}}{1-\left( 1-p \right) \frac{\lambda}{\lambda-it}} = \frac{p\lambda}{p\lambda-it}, \hspace{2cm}\forall t\in\R,
+        \end{equation*}
+        which is the characteristic function of $\expdis\left( p\lambda \right)$. It follows that $Y\sim\expdis\left( p\lambda \right)$.
+    \end{example}
+
+    \rruleline
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+\end{document}

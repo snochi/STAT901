@@ -1,0 +1,314 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Limit Theorems}
+    
+    \subsection{Weak Law of Large Numbers}
+    
+    \begin{theorem}{WLLN}
+        Let $\left( X_{n} \right)^{\infty}_{n=1}$ be a sequence of uncorrelated random variables with $\var\left( X_n \right)\leq c$ for some $c\geq 0$ and the same expectation. Let
+        \begin{equation*}
+            S_n = \sum^{n}_{k=1} X_k
+        \end{equation*}
+        for all $n\in\N$. Then $\frac{S_n}{n}\to\mu$ in $L^2$ and in probability.
+    \end{theorem}
+
+    \begin{proof}
+        Note that $\EE\left( \frac{S_n}{n} \right) = \mu$ for all $n\in\N$.
+
+        Also,
+        \begin{equation*}
+            \var\left( \frac{S_n}{n} \right) =
+            \EE\left( \left( \frac{S_n}{n}-\mu \right)^{2} \right) = \frac{1}{n^{2}} \sum^{n}_{k=1} \var\left( X_k \right) \leq \frac{c}{n} \to 0.
+        \end{equation*}
+        This means $\frac{S_n}{n}\to\mu$ in $L^2$ and in probability.
+    \end{proof}
+    
+    \begin{theorem}{WLLN for Triangular Arrays}
+        Consider a trangular array of random variables,
+        \begin{equation*}
+            \begin{matrix}
+                X_{1,1} &  &  &  \\
+                X_{2,1} & X_{2,2} &  &  \\
+                X_{3,1} & X_{3,2} & X_{3,3} &  \\
+            	\vdots & \vdots & \vdots & \ddots \\
+            \end{matrix},
+        \end{equation*}
+        and let
+        \begin{equation*}
+            S_n = \sum^{n}_{j=1} X_{n,j}.
+        \end{equation*}
+        If there is a sequence $\left( b_{n} \right)^{\infty}_{n=1}\in\R^{\N}$ such that
+        \begin{equation*}
+            \frac{\var\left( S_n \right)}{b_n^{2}}\to 0,
+        \end{equation*}
+        then
+        \begin{equation*}
+            \frac{S_n-\EE\left( S_n \right)}{b_n} \to 0
+        \end{equation*}
+        in probability.
+    \end{theorem}
+    
+    \begin{proof}
+        Note
+        \begin{equation*}
+            \EE\left( \left( \frac{S_n-\EE\left( S_n \right)}{b_n} \right)^{2} \right) = \frac{1}{b_n^{2}} \EE\left( \left( S_n-\EE\left( S_n \right) \right)^{2} \right) = \frac{\var\left( S_n \right)}{b_n^{2}} \to 0.
+        \end{equation*}
+        Hence $\frac{S_n-\EE\left( S_n \right)}{b_n}\to 0$ in probability.
+    \end{proof}
+
+    \np If we further assume that $X_{n,j}$'s have identical distribution with mean and variance $\mu,\sigma^{2}$ and the random variables in the same row are independent, then
+    \begin{equation*}
+        \frac{S_n}{n} \to \mu
+    \end{equation*}
+    in probability.
+    
+    \np For sequences of random variables without finite second moment, we consider the following.
+
+    \begin{theorem}{}
+        Let $\left( X_{n,k} \right)^{}_{1\leq k\leq n}$ be a (triangular) sequence of random variables, such that $X_{n,1},\ldots,X_{n,n}$ are independent for all $n\in\N$. Let $\left( b_{n} \right)^{\infty}_{n=1}\in\left( 0,\infty \right)^{\N}$ such that $b_n\to\infty$ and let
+        \begin{equation*}
+            \overline{X_{n,k}} = X_{n,k}\chi_{\left| X_{n,k} \right|\leq b_n}, \hspace{2cm}\forall n\in\N , k\leq n.
+        \end{equation*}
+        Suppose $\sum^{n}_{k=1} \PP\left( \left| X_{n,k} \right|>b_n \right) \to 0$ and that $b_n^{-2} \sum^{n}_{k=1}\EE\left( \overline{X_{n,k}}^{2} \right) \to 0$, then
+        \begin{equation*}
+            \frac{S_n-a_n}{b_n}\to 0
+        \end{equation*}
+        in probability, where
+        \begin{equation*}
+            S_n = \sum^{n}_{k=1} X_{n,k}
+        \end{equation*}
+        and
+        \begin{equation*}
+            a_n = \sum^{n}_{k=1} \EE\left( \overline{X_{n,k}} \right).
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+    
+    \begin{theorem}{}
+        Let $X_1,X_2,\ldots$ be iid with $\lim_{x\to\infty}x\PP\left( \left| X_1 \right|>x \right) = 0$. Let
+        \begin{equation*}
+            S_n = \sum^{n}_{k=1} X_k
+        \end{equation*}
+        and
+        \begin{equation*}
+            \mu_n = \EE\left( X_1\chi_{\left| X_1 \right|\leq n} \right)
+        \end{equation*}
+        for all $n\in\N$. Then
+        \begin{equation*}
+            \frac{S_n}{n}-\mu_n\to 0 \text{ in probability}.
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+    
+    \begin{lemma}{}
+        Let $Y$ be a nonnegative random variable. Then
+        \begin{equation*}
+            \EE\left( Y^{2} \right) = \int^{\infty}_{0} 2y\PP\left( Y>y \right)dy.
+        \end{equation*}
+    \end{lemma}
+
+    \begin{proof}
+        Recall that
+        \begin{equation*}
+            \PP\left( Y>y \right) = \EE\left( \chi_{Y>y} \right) = \int^{\infty}_{0}\PP\left( Y>y \right)dy.
+        \end{equation*}
+        Note
+        \begin{equation*}
+            \int^{\infty}_{0} 2y\PP\left( Y>y \right)dy = \int^{\infty}_{0} \EE\left( 2y\chi_{Y>y} \right)dy = \EE\left( \int^{\infty}_{0} 2y\chi_{Y>y}dy \right) = \EE\left( \int^{Y}_{0} 2ydy \right) = \EE\left( Y^{2} \right).
+        \end{equation*}
+    \end{proof}
+    
+    \begin{theorem}{}
+        Let $X_1,X_2,\ldots$ be iid and $\Lone$ and let $S_n = \sum^{n}_{k=1} X_k$ for all $n\in\N$. Let $\mu=\EE\left( X_1 \right)$. Then $\frac{S_n}{n}\to \mu$ in $\PP$.
+    \end{theorem}
+
+    \rruleline
+
+    \clearpage
+
+    \subsection{Strong Law of Large Numbers}
+    
+    \begin{theorem}{Strong Law of Large Numbers}
+        Let $X_1,X_2,\ldots$ be identically distributed $\Lone$ random variables that are pairwisely independent. Let $\mu=\EE\left( X_1 \right)$ and let $S_n = \sum^{n}_{k=1}X_k$ for all $n\in\N$. Then
+        \begin{equation*}
+            \frac{S_n}{n}\to\mu
+        \end{equation*}
+        almost surely.
+    \end{theorem}
+
+    \rruleline
+
+    \np Suppose $X_1,X_2,\ldots$ are iid, $\EE\left( X_1^+ \right) = \infty$, and $\EE\left( X_1^- \right) < \infty$. Then
+    \begin{equation*}
+        \frac{S_n}{n}\to\infty.
+    \end{equation*}
+    The idea for the proof is that we can use trunctation to show that
+    \begin{equation*}
+        \liminf_{n\to\infty} \frac{S_n}{n} > x
+    \end{equation*}
+    for all $x\in\R$.
+    
+    \begin{example}{Renewal Theory}
+        Consider iid interarrival times $X_1,X_2,\ldots$, such as arrival times of customers, service times of servers, and lifespan of lightbulbs, are positive random variables. For $n\in\N$, consider
+        \begin{equation*}
+            T\left( n \right) = \sum^{n}_{j=1} X_j,
+        \end{equation*}
+        the time of the $n$th occurance of the event and for $t\geq 0$, let
+        \begin{equation*}
+            N\left( t \right) = \sup\left\lbrace n\in\N:T\left( n \right)\leq t \right\rbrace,
+        \end{equation*}
+        the number of occurance by time $t$. Then the SLLN implies the following. 
+
+        If $\EE\left( X_1 \right)=\mu\leq\infty$, then
+        \begin{equation*}
+            \frac{N_t}{t}\to \frac{1}{\mu} \text{ almost surely}
+        \end{equation*}
+        as $t\to\infty$.
+    \end{example}
+
+    \begin{proof}
+        By the SLLN,
+        \begin{equation*}
+            \frac{T\left( n \right)}{n}\to\mu\text{ almost surely}
+        \end{equation*}
+        and note that
+        \begin{equation*}
+            T\left( N_t \right) \leq t < T\left( N_t+1 \right), \hspace{2cm}\forall t\geq 0,
+        \end{equation*}
+        so that
+        \begin{equation*}
+            \frac{T\left( N_t \right)}{N_t} \leq \frac{t}{N_t} < \frac{T\left( N_t+1 \right)}{N_t} = \frac{T\left( N_t+1 \right)}{N_t+1} \frac{N_t+1}{N_t}.
+        \end{equation*}
+        As $t\to\infty$, $N_t\to\infty$ almost surely, so that $\frac{N_t+1}{N_t}\to 1$ almost surely. This means
+        \begin{equation*}
+            \frac{t}{N_t}\to \mu \text{ almost surely}
+        \end{equation*}
+        as $t\to\infty$.
+    \end{proof}
+    
+    \begin{example}{Empirical Distribution Function}
+        Let $X_1,X_2,\ldots$ be iid samples from (unknown) distribution function $F$ and let $F_n:\R\to\left[ 0,1 \right]$ be
+        \begin{equation*}
+            F_n\left( x \right) = \frac{1}{n} \sum^{n}_{m=1} \chi_{X_m\leq x}
+        \end{equation*}
+        be the \textit{empirical distribution function}. Then $F_n\to F$ almost surely by SLLN.
+
+        As it turns out, the Glivenko-Contelli theorem shows a stronger result:
+        \begin{equation*}
+            \sup_{x\in\R} \left| F_n\left( x \right)-F\left( x \right) \right|\to 0\text{ almost surely}.
+        \end{equation*}
+        That is, we have an almost sure \textit{uniform} convergence.
+    \end{example}
+
+    \rruleline
+
+    \subsection{Central Limit Theorem}
+
+    \begin{theorem}{Central Limit Theorem}
+        Let $X_1,X_2,\ldots$ be iid with $\EE\left( X_1 \right) = \mu, \var\left( X_1 \right) = \sigma^{2}\in\left( 0,\infty \right)$ and let $S_n = \sum^{n}_{j=1}X_j$ for all $n\in\N$. Then
+        \begin{equation*}
+            \frac{S_n-n\mu}{\sigma\sqrt{n}} \to \normaldis\left( 0,1 \right) \text{ in distribution}.
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+    
+    \begin{example}{Normal Approximation of Binomial Distribution}
+        Let $X_1,X_2,\ldots\overset{\text{iid}}{\sim}\berdis\left( p \right)$. Then
+        \begin{equation*}
+            S_n = \sum^{n}_{j=1} X_j \sim\binomdis\left( n,p \right), \hspace{2cm}\forall n\in\N
+        \end{equation*}
+        and $\EE\left( X_1 \right) = p, \var\left( X_1 \right) = p\left( 1-p \right)$.
+
+        By the CLT,
+        \begin{equation*}
+            \frac{S_n-np}{\sqrt{p\left( 1-p \right)}\sqrt{n}} \to \normaldis\left( 0,1 \right) \text{ in distribution},
+        \end{equation*}
+        which means
+        \begin{equation*}
+            \frac{S_n-np}{\sqrt{n}} \to \normaldis\left( 0,p\left( 1-p \right) \right) \text{ in distribution}.
+        \end{equation*}
+        It follows that
+        \begin{equation*}
+            S_n-np \approx \normaldis\left( 0,np\left( 1-p \right) \right),
+        \end{equation*}
+        so that
+        \begin{equation*}
+            S_n\approx\normaldis\left( np,np\left( 1-p \right) \right).
+        \end{equation*}
+
+        In words, we can approximate $\binomdis\left( n,p \right)$ with $\normaldis\left( np,np\left( 1-p \right) \right)$ when $n$ is large.
+
+        For instance, when $p=\frac{1}{2}$,
+        \begin{equation*}
+            \PP\left( \frac{S_n-np}{\sqrt{p\left( 1-p \right)}\sqrt{n}} \in \left[ a,b \right] \right) \approx \Phi\left( b \right) - \Phi\left( a \right),
+        \end{equation*}
+        where $\Phi$ is the distribution of $\normaldis\left( 0,1 \right)$, which means
+        \begin{equation*}
+            \PP\left( S_n\in\left[ c,d \right] \right) \approx \Phi\left( \frac{d-\frac{n}{2}}{\frac{1}{2}\sqrt{n}} \right) - \Phi\left( \frac{c-\frac{n}{2}}{\frac{1}{2}\sqrt{n}} \right).
+        \end{equation*}
+    \end{example}
+    
+    \begin{theorem}{LF CLT}
+        For $n\in\N$, let $X_{n,1},\ldots,X_{n,n}$ be independent with $\EE\left( X_{n,m} \right) = 0$. If
+        \begin{equation*}
+            \sum^{n}_{m=1} \EE\left( X^{2}_{n,m} \right) \to \sigma^{2} > 0
+        \end{equation*}
+        and
+        \begin{equation*}
+            \lim_{n\to\infty} \sum^{n}_{m=1} \EE\left( \left| X_{n,m} \right|^{2} : \left| X_{n,m} \right| > \epsilon \right) = 0,
+        \end{equation*}
+        then
+        \begin{equation*}
+            S_n = \sum^{n}_{m=1} X_{n,m} \to \sigma\normaldis\left( 0,1 \right)\text { in distribution}.
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+\end{document}

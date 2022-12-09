@@ -1,0 +1,327 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Random Variables}
+
+    Fix a probability space $\left( \Omega,\mF,\PP \right)$ throughout.
+
+    \subsection{Random Variables}
+
+    \begin{definition}{\textbf{Measurable} Function}
+        Let $\left( X,\mA \right), \left( Y,\mB \right)$ be measurable spaces. We say $f:X\to Y$ is \emph{measurable} if
+        \begin{equation*}
+            f^{-1}\left( B \right)\in\mA,\hspace{1cm}\forall B\in\mB.
+        \end{equation*}
+    \end{definition}
+
+    \begin{definition}{\textbf{Random Variable}}
+        We say $X:\Omega\to\R$ is a \emph{random variable} if
+        \begin{equation*}
+            X^{-1}\left( A \right)\in\mF,\hspace{1cm}\forall A\in\Bor\left( \R \right).
+        \end{equation*}
+    \end{definition}
+
+    \np Whe we discuss the events defined by the value of $X$, we shall use the shorthand notation like
+    \begin{equation*}
+        \left\lbrace X\in B \right\rbrace = \left\lbrace \omega\in\Omega : X\left( \omega \right) \in B \right\rbrace.
+    \end{equation*}
+
+    \begin{example}{}
+        Let $\left( \Omega,2^{\Omega},\PP \right)$ be a discrete probability space. Then any $X:\Omega\to\R$ is a random variable.
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{}
+        Given any $A\in\mF$, the \textit{indicator function}
+        \begin{equation*}
+            \begin{aligned}
+                \chi_A:\Omega&\to\R \\
+                \omega & \mapsto
+                \begin{cases} 
+                    1 & \text{if $\omega\in A$} \\
+                    0 & \text{if $\omega\notin A$}
+                \end{cases}
+            \end{aligned} 
+        \end{equation*}
+        of $A$ is a random variable.
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{}
+        Let $X:\Omega\to\R$ be a random variable. Then $X$ induces a probability measure $\mu:\R\to\R$ on $\left( \R,\Bor\left( \R \right) \right)$ by
+        \begin{equation*}
+            \mu\left( B \right) = \PP\left( X\in B \right) = \PP\left( X^{-1}\left( B \right) \right),\hspace{1cm}\forall B\in\Bor\left( \R \right).
+        \end{equation*}
+        We call $\mu$ the \emph{distribution} of $X$.
+    \end{example}
+
+    \rruleline
+
+    \begin{definition}{\textbf{Cumulative Distribution Function} (\textbf{CDF}) of a Random Variable}
+        Let $X:\Omega\to\R$ be a random variable. We define the \emph{cumulative distribution function} (\emph{cdf}) of $X$, denoted as $F_X$ (or $F$ when $X$ is understood), by
+        \begin{equation*}
+            \begin{aligned}
+                F_X : \R&\to\R \\
+                x&\mapsto\PP\left( X\leq x \right)
+            \end{aligned} .
+        \end{equation*}
+    \end{definition}
+
+    Note that $F\left( x \right) = \mu\left( \left( -\infty,x \right] \right)$ for all $x\in\R$, where $\mu$ is the distribution of $X$ introduced in Example 3.3. Since $\left\lbrace \left( -\infty,x \right] \right\rbrace^{}_{x\in\R}$ is a $\pi$-system generating $\Bor\left( \R \right)$, $F$ characterizes $\mu$.
+
+    \clearpage
+
+    \begin{prop}{Properties of CDF}
+        Let $X:\Omega\to\R$ be a random variable and let $F:\R\to\R$ be the cdf of $X$.
+        \begin{enumerate}
+            \item $F$ is non-decreasing.
+            \item $\lim_{x\downarrow-\infty}F\left( x \right) = 0$.
+            \item $\lim_{x\uparrow\infty}F\left( x \right) = 1$.
+            \item $F$ is right-continuous (i.e. $\lim_{y\downarrow x}F\left( y \right) = F\left( x \right)$ for all $x\in\R$).
+            \item $\PP\left( X<x \right) = \lim_{y\uparrow x}F\left( y \right)$.
+            \item $\PP\left( X=x \right) = F\left( x \right) - \lim_{y\uparrow x}F\left( y \right)$.
+        \end{enumerate}
+        Moreover, the conditions (a), \ldots, (d) characterizes $F$, That is, $G:\R\to\R$ is non-decreasing and right-continuous with 
+        \begin{equation*}
+            \lim_{x\downarrow-\infty}G\left( x \right) = 0, \lim_{x\uparrow\infty}G\left( x \right) = 1,
+        \end{equation*}
+        then $F=G$.
+    \end{prop}
+
+    \begin{proof}
+        \begin{enumerate}
+            \item We have
+                \begin{flalign*}
+                    && x_1\leq x_2 & \implies \left( -\infty,x_1 \right] \subseteq \left( -\infty,x_2 \right] && \\
+                    && & \implies F\left( x_1 \right) = \PP\left( X\in\left( -\infty,x_1 \right] \right) \leq \PP\left( X\in\left( -\infty,x_2 \right] \right) = F\left( x_2 \right)
+                \end{flalign*}
+                by monotonicity of $\PP$.
+
+            \item Note that
+                \begin{equation*}
+                    \lim_{x\downarrow-\infty}F\left( x \right) = \lim_{x\downarrow-\infty}\PP\left( X\leq x \right) = \lim_{x\downarrow-\infty} \PP\left( X^{-1}\left( \left( -\infty,x \right] \right) \right) = 0
+                \end{equation*}
+                by the continuity of $\PP$ from above.
+
+            \item Similar to (b), this follows from the continuity of $\PP$ from below.
+
+            \item Note that
+                \begin{equation*}
+                    \lim_{y\downarrow x}X^{-1}\left( \left( -\infty,y \right] \right) = \bigcap^{}_{y\geq x} X^{-1}\left( \left( -\infty,y \right] \right) = X^{-1}\left( \left( -\infty,x \right] \right),
+                \end{equation*}
+                so by the continuity from above,
+                \begin{equation*}
+                    \lim_{y\downarrow x} F\left( y \right) = \cdots = F\left( x \right).
+                \end{equation*}
+
+            \item We have
+                \begin{equation*}
+                    \lim_{y\uparrow x} X^{-1}\left( \left( -\infty,y \right] \right) = \bigcup^{}_{y\leq x} X^{-1}\left( \left( -\infty,y \right] \right) = X^{-1}\left( \left( -\infty,x \right) \right).
+                \end{equation*}
+
+            \item This follows from (d), (e).
+        \end{enumerate}
+        A more stronger result of the last statement is proven in the following theorem.
+    \end{proof}
+
+    \begin{theorem}{}
+        Let $F:\R\to\R$ be a right-continuous, non-decreasing function with $\lim_{x\downarrow-\infty}F\left( x \right) = 0, \lim_{x\uparrow\infty}F\left( x \right)=1$. Then there exists a probability space $\left( \Omega,\mF,\PP \right)$ and a random variable $X:\Omega\to\R$ such that $F$ is the cdf of $X$.
+    \end{theorem}
+
+    \begin{proof}
+        Take $\Omega = \left( 0,1 \right), \mF = \Bor\left( \left( 0,1 \right) \right)$ and let $\PP$ be the Lebesgue measure on $\left( \Omega,\mF \right)$. Define $X:\Omega\to\R$ by
+        \begin{equation*}
+            X\left( \omega \right) = \sup\left\lbrace y\in\R: F\left( y \right) < \omega \right\rbrace,\hspace{1cm}\forall \omega\in\Omega.
+        \end{equation*}
+        Let $\omega\in\left( 0,1 \right)$ and let $x\in\R$. 
+
+        \begin{claim}
+            \textit{$\omega\leq F\left( x \right)$ if and only if $X\left( \omega \right)\leq x$.}
+
+            If $\omega\leq F\left( x \right)$, then $x>y$ for any $y$ with $F\left( y \right)<\omega$ by monotonicity of $F$. This means $x\geq X\left( \omega \right)$.
+
+            On the other hand, if $F\left( x \right)<\omega$, then by the right-continuity of $F$, there exists $x'>x$ such that $\omega>F\left( x' \right)$. This means $X\left( \omega \right) = \sup\left\lbrace y\in\R: F\left( y \right)<\omega \right\rbrace\geq x'>x$.
+        \end{claim}
+
+        By Claim 1,
+        \begin{equation*}
+            \PP\left( X\leq x \right) = \PP\left( \left( 0,F\left( x \right) \right] \right) = F\left( x \right).
+        \end{equation*}
+        Thus $F$ is the cdf of $X$.
+    \end{proof}
+
+    \begin{definition}{Random Variables \textbf{Equal in Distribution}}
+        Let $X,Y:\Omega\to\R$ be random variables. If $F_X = F_Y$, then we say $X,Y$ are \emph{equal in distribution} and we write $X \overset{\text{d}}{=} Y$.
+    \end{definition}
+
+    \np $X\overset{\text{d}}{=}Y$ does not guarantee that $X=Y$.
+
+    \begin{definition}{\textbf{Probability Density Function} (\textbf{PDF}) of a Random Variable}
+        Let $X:\Omega\to\R$ be a random variable. If $f_X:\R\to\R$ is such that
+        \begin{equation*}
+            \PP\left( X\leq x \right) = \int^{x}_{-\infty}f_X\left( t \right) dt,\hspace{1cm}\forall x\in\R,
+        \end{equation*}
+        then we say $f_X$ the \emph{probability density function} (\emph{pdf}) of $X$.
+    \end{definition}
+
+    \np Note that, if $X$ has a pdf $f_X:\R\to\R$, then
+    \begin{equation*}
+        \PP\left( X\in\left( a,b \right] \right) = \PP\left( \left( -\infty,b \right] \right)-\PP\left( \left( -\infty,a \right] \right) = \int^{b}_{-\infty}f_X\left( t \right)dt - \int^{a}_{-\infty}f_X\left( t \right)dt = \int^{b}_{a}f_X\left( t \right)dt.
+    \end{equation*}
+    Moreover,
+    \begin{equation*}
+        \PP\left( X=x \right) \leq \PP\left( X\in\left( x-\epsilon,x+\epsilon \right] \right) = \int^{x+\epsilon}_{x-\epsilon} f_X\left( t \right)dt
+    \end{equation*}
+    for any $\epsilon>0$, so by taking $\epsilon\to 0$, we see that
+    \begin{equation*}
+        \PP\left( X=x \right) = 0.
+    \end{equation*}
+
+    \begin{definition}{\textbf{Continuous}, \textbf{Absolutely Continuous} Random Variable}
+        Let $X:\Omega\to\R$ be a random variable. If the pdf $F_X$ of $X$ is continuous, then we say $X$ is \emph{continuous}.
+
+        In case $X$ admits a density function $f_X$, we say $X$ (and $F_X$) is \emph{absolutely continuous}.
+    \end{definition}
+
+    \np We see that an absolutely continuous random variable is continuous, but the converse is false. 
+
+    \begin{definition}{\textbf{Singular} Continuous Random Variable}
+        We say a continuous random variable $X$ is \emph{singular} if it does not admit a pdf.
+    \end{definition}
+
+    \np Hence in general, a cdf consists of three parts: absolutely continuous, continuous, and discrete.
+
+    \subsection{Examples of Distributions}
+
+    Given a random variable $X$ and a distribution $F$, we write $X\sim F$ if $F$ is the cdf of $X$.
+
+    \clearpage
+
+    \begin{example}{Uniform Distribution on $\left( 0,1 \right)$}
+        If $X\sim\unidis\left( 0,1 \right)$, then
+        \begin{equation*}
+            f_X\left( x \right) = \begin{cases} 0 & \text{if $x\notin\left( 0,1 \right)$} \\ 1 & \text{if $x\in\left( 0,1 \right)$} \end{cases},\hspace{1cm}\forall x\in\R
+        \end{equation*}
+        and
+        \begin{equation*}
+            F_X\left( x \right) = \begin{cases} 0 & \text{if $x\leq 0$} \\ x & \text{if $x\in\left( 0,1 \right)$} \\ 1 & \text{if $x\geq 1$} \end{cases}, \hspace{1cm}\forall x\in\R.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+    
+    \begin{example}{Exponential Distribution}
+        If $X\sim\expdis\left( \lambda \right)$, where $\lambda\geq 0$, then
+        \begin{equation*}
+            f_X\left( x \right) = \begin{cases} \lambda e^{-\lambda x} & \text{if $x\geq 0$} \\ 0 & \text{if $x<0$} \end{cases},\hspace{1cm}\forall x\in\R.
+        \end{equation*}
+    \end{example}
+    
+    \rruleline
+
+    \begin{prop}{}
+        Let $X:\Omega\to\R$ be a random variable. Then
+        \begin{equation*}
+            \mG = \left\lbrace X^{-1}\left( B \right):B\in\Bor\left( \R \right) \right\rbrace
+        \end{equation*}
+        is the smallest $\sigma$-field on $\Omega$ such that $X$ is measurable on $\left( \Omega,\mG \right)$.
+    \end{prop}
+
+    \begin{proof}
+        Note that $\emptyset = X^{-1}\left( \emptyset \right)$ where $\emptyset\in\Bor\left( \R \right)$.
+
+        Given $A = X^{-1}\left( B \right)$ for some $B\in\Bor\left( \R \right)$, $\Omega\setminus A = X^{-1}\left( \R\setminus B \right)\in\mG$ as $\R\setminus B\in\Bor\left( \R \right)$.
+
+        Let $A_1 = X^{-1}\left( B_1 \right), A_2 = X^{-1}\left( B_2 \right), \ldots\in\mG$ for some $B_1,B_2,\ldots\in\Bor\left( \R \right)$. Then
+        \begin{equation*}
+            \bigcup^{\infty}_{n=1} A_n = \bigcup^{\infty}_{n=1}X^{-1}\left( B_n \right) = X^{-1}\left( \bigcup^{\infty}_{n=1}B_n \right),
+        \end{equation*}
+        where $\bigcup^{\infty}_{n=1}B_n\in\Bor\left( \R \right)$, so that $\bigcup^{\infty}_{n=1}A_n\in\mG$.
+
+        Hence $\mG$ is a $\sigma$-field.
+
+        Note that if $\mE\subset\mG$ is a $\sigma$-field properly contained in $\mG$, then there is $B\in\Bor\left( \R \right)$ such that $X^{-1}\left( B \right)\notin\mE$. Hence $X$ is not measurable on $\left( X,\mE \right)$.
+    \end{proof}
+
+    \begin{definition}{$\sigma$-field \textbf{Generated} by a Random Variable}
+        Consider the setting of Proposition 3.3. We call $\mG$ the $\sigma$-field \emph{generated} by $X$.
+    \end{definition}
+
+    \begin{theorem}{}
+        Let $X:\left( \Omega,\mF \right)\to\left( S,\mA \right)$ and $f:\left( S,\mA \right)\to\left( T,\mB \right)$ be measurable, then $f\circ X$ is measurable.
+    \end{theorem}
+
+    \begin{proof}
+        Let $B\in\mB$. Then
+        \begin{equation*}
+            \left( f\circ X \right)^{-1}\left( B \right) = X^{-1}\left( f^{-1}\left( B \right) \right) \in \mF
+        \end{equation*}
+        by the measurability of $f,X$.
+    \end{proof}
+
+    \np In particular, in case $X$ is a random variable, then $f\circ X$ is also a random variable.
+
+    \begin{theorem}{}
+        Let $X_1,X_2,\ldots$ be random variables. Then $\inf_{n\in\N}X_n,\sup_{n\in\N}X_n,\liminf_{n\to\infty}X_n,\limsup_{n\to\infty}X_n$ are random variables.
+    \end{theorem}
+
+    \begin{proof}
+        Note that 
+        \begin{equation*}
+            \left( \inf_{n\in\N}X_n \right)^{-1}\left( \left( -\infty,a \right) \right) = \bigcup^{}_{n\in\N} X_n^{-1}\left( \left( -\infty,a \right) \right)\in\mF.
+        \end{equation*}
+        Similarly,
+        \begin{equation*}
+            \left( \sup_{n\in\N}X_n \right)^{-1}\left( \left( a,\infty \right) \right) = \bigcup^{}_{n\in\N} X_n^{-1}\left( \left( a,\infty \right) \right)\in\mF.
+        \end{equation*}
+        Then it remains to note that $\liminf_{n\to\infty}X_n = \sup_{n\in\N}\inf_{k\geq n}X_k$ and that $\limsup_{n\to\infty}X_n = \inf_{n\in\N}\sup_{k\geq n}X_k$.
+    \end{proof}
+
+    \np In case $\liminf_{n\to\infty}X_n = \limsup_{n\to\infty}X_n$, $\lim_{n\to\infty}X_n$ exists and is also a random variable.
+
+    Moreover,
+    \begin{equation*}
+        A = \left\lbrace \omega\in\Omega: \lim_{n\to\infty}X_n\left( \omega \right)\text{ exists} \right\rbrace = \left( \limsup_{n\to\infty}X_n-\liminf_{n\to\infty}X_n \right)^{-1}\left( \left\lbrace 0 \right\rbrace \right)
+    \end{equation*}
+    is measurable. Hence it follows that
+    \begin{equation*}
+        \PP\left( A \right) = 1 \iff X_n\text{ converges almost surely}.
+    \end{equation*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+
+\end{document}

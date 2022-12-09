@@ -1,0 +1,291 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Lebesgue Integration}
+
+    Fix a $\sigma$-finite measure space $\left( \Omega,\mF,\mu \right)$. 
+
+    \subsection{Simple Functions}
+    
+    \begin{definition}{\textbf{Simple} Function}
+        Let $\phi:\Omega\to\R$. If
+        \begin{equation*}
+            \phi = \sum^{n}_{i=1} a_i\chi_{A_i}
+        \end{equation*}
+        for some $a_1,\ldots,a_n\in\R$ and $A_1,\ldots,A_n\in\mF$ with each $\mu\left( A_i \right)<\infty$, then we say $\phi$ is a \emph{simple} function.
+
+        In this case, we define the \emph{integral} of $\phi$, denoted as $\int\phi d\mu$, as
+        \begin{equation*}
+            \int\phi d\mu = \sum^{n}_{i=1}a_i\mu\left( A_i \right).
+        \end{equation*}
+    \end{definition}
+
+    \begin{lemma}{}
+        Let $\phi:\Omega\to\R$ be simple with $\phi\geq 0$ $\mu$-ae. Then
+        \begin{equation*}
+            \int\phi d\mu\geq 0.
+        \end{equation*}
+    \end{lemma}
+
+    \rruleline
+
+    \begin{lemma}{Linearity of Integration for Simple Functions}
+        Let $\phi,\psi:\Omega\to\R$ be simple functions and let $a\in\R$. Then
+        \begin{equation*}
+            \int a\phi+\psi d\mu = a\int\phi d\mu + \int \phi d\mu.
+        \end{equation*}
+    \end{lemma}
+
+    \begin{proof}
+        Write $\phi = \sum^{n}_{i=1} a_i\chi_{A_i}, \psi = \sum^{m}_{j=1} b_j\chi_{B_j}$. Then note that
+        \begin{equation*}
+            a\phi+\psi = \sum^{n}_{i=1}\sum^{m}_{j=1} \left( aa_i+b_j \right) \chi_{A_i\cap B_j} ,
+        \end{equation*}
+        so that
+        \begin{equation*}
+            \begin{aligned}
+                \int a\phi+\psi d\mu & = \sum^{n}_{i=1}\sum^{m}_{j=1} \left( aa_i+b_j \right) \mu\left( A_i\cap B_j \right) \\
+                                   & = \sum^{n}_{i=1} \sum^{m}_{j=1} aa_i\mu\left( A_i\cap B_j \right) + \sum^{n}_{i=1}\sum^{m}_{j=1}b_j\mu\left( A_i\cap B_j \right) \\
+                                   & = \sum^{n}_{i=1}aa_i \sum^{m}_{j=1} \mu\left( A_i\cap B_j \right) + \sum^{m}_{j=1}b_j \sum^{n}_{i=1}\mu\left( A_i\cap B_j \right) \\
+                                   & = a\sum^{n}_{i=1} a_i\mu\left( A_i \right) + \sum^{m}_{j=1} b_j\mu\left( B_j \right) \\
+                                   & = a\int\phi d\mu + \int\psi d\mu.
+            \end{aligned} 
+        \end{equation*}
+    \end{proof}
+
+    \clearpage
+
+    \begin{lemma}{}
+        Let $\phi,\psi:\Omega\to\R$.
+        \begin{enumerate}
+            \item If $\phi\leq\psi$ $\mu$-ae, then $\int\phi d\mu\leq \int\psi d\mu$.
+            \item If $\phi=\psi$ $\mu$-ae, then $\int\phi d\mu=\int \psi d\mu$.
+            \item $\left| \int\phi d\mu \right| \leq \int\left| \phi \right| d\mu$.
+        \end{enumerate}
+    \end{lemma}
+
+    \begin{proof}
+        \begin{enumerate}
+            \item We have
+                \begin{equation*}
+                    \int\phi d\mu = \int\psi d\mu + \int\left( \phi-\psi \right) d\mu \geq \int\psi d\mu
+                \end{equation*}
+                by Lemma 4.1.
+
+            \item We note that 
+                \begin{equation*}
+                    \phi=\psi\text{ $\mu$-ae} \implies \phi\leq\psi\text{ $\mu$-ae and }\psi\leq\phi\text{ $\mu$-ae}.
+                \end{equation*}
+                Hence by (a) $\int\phi d\mu = \int\psi d\mu$.
+
+            \item Note that
+                \begin{equation*}
+                    \int\phi d\mu \leq \int \left| \phi \right|d\mu
+                \end{equation*}
+                and that
+                \begin{equation*}
+                    \int-\phi d\mu \leq \int \left| \phi \right|d\mu
+                \end{equation*}
+                so that
+                \begin{equation*}
+                    \left| \phi d\mu \right| \leq \int\left| \phi \right|d\mu.
+                \end{equation*}
+        \end{enumerate}
+    \end{proof}
+
+    \subsection{Integration of Bounded Functions on a Finite Measure Support}
+    
+    \begin{prop}{}
+        Let $f:\Omega\to\R$ be a bounded function such that there is $E\in\mF$ with $\mu\left( E \right) < \infty$ such that $f\left( x \right)=0$ for all $x\in\Omega\setminus E$. Then
+        \begin{equation*}
+            \underbrace{\sup \left\lbrace \int\phi d\mu : \text{$\phi$ is simple and }\phi\leq f \right\rbrace}_{=l} = \underbrace{\inf \left\lbrace \int\psi d\mu : \text{$\psi$ is simple and }\psi\geq f \right\rbrace}_{=u}.
+        \end{equation*}
+    \end{prop}
+
+    \begin{proof}
+        By monotonicity, $l\leq u$ is clear.
+
+        We are going to show that the difference $u-l$ is dominated by a positive sequence converging to $0$. Let $M\in\R$ be such that $\left| f\left( x \right) \right|\leq M$ for all $x\in E$ and let
+        \begin{equation*}
+            E_{k,n} = \left\lbrace x\in E: \frac{\left( k-1 \right)M}{n}< f\left( x \right)\leq \frac{kM}{n} \right\rbrace, \hspace{1cm}\forall n\in\N, k\in\left\lbrace -n,\ldots,n \right\rbrace.
+        \end{equation*}
+        Then by taking
+        \begin{equation*}
+            \psi_n = \sum^{n}_{k=-n} \frac{kM}{n}\chi_{E_{k,n}}, \phi_n = \sum^{n}_{k=-n} \frac{\left( k-1 \right)M}{n}\chi_{E_{k,n}}, \hspace{1cm}\forall k\in\left\lbrace -n,\ldots,n \right\rbrace,
+        \end{equation*}
+        we see that $\phi_n\leq f\leq\psi_n$ and that
+        \begin{equation*}
+            \int\psi_nd\mu-\int\phi_nd\mu = \int\psi_n-\phi_nd\mu = \frac{M}{n}\mu\left( E \right) \overset{n\to\infty}{\to} 0.
+        \end{equation*}
+    \end{proof}
+
+    \clearpage
+
+    \begin{lemma}{}
+        Lemma 4.1, 4.2, 4.3 applies for bounded function with finite measure support.
+    \end{lemma}
+
+    \rruleline
+
+    \subsection{Integration of Nonnegative Measurable Function}
+    
+    \begin{definition}{\textbf{Integral} of Nonnegative Measurable Function}
+        Let $f:X\to\R$ be a measurable function such that $f\geq 0$. We define the \emph{integral} of $f$, denoted as $\int fd\mu$, by
+        \begin{equation*}
+            \int fd\mu = \sup\left\lbrace \int hd\mu: 0\leq h\leq f, h\text{ is bounded}, \mu\left( \left\lbrace x\in X: h\left( x \right)\neq 0 \right\rbrace \right) < \infty \right\rbrace.
+        \end{equation*}
+    \end{definition}
+
+    \np A way to find $\int fd\mu$ is to consider
+    \begin{equation*}
+        h_n = \left( f\wedge n \right) \chi_{E_n}, \hspace{1cm}\forall n\in\N,
+    \end{equation*}
+    where $\left( E_{n} \right)^{\infty}_{n=1}\in\mA^{\N}$ is an increasing chain of sets in $\mA$ with $\mu\left( E_n \right)<\infty$ such that $\bigcup^{\infty}_{n=1} E_n = \Omega$, which exists by the fact that $\left( X,\mA,\mu \right)$ is $\sigma$-finite.
+
+    \begin{lemma}{}
+        Let $f:X\to\R$ be nonnegative and let
+        \begin{equation*}
+            h_n = \left( f\wedge n \right) \chi_{E_n}, \hspace{1cm}\forall n\in\N,
+        \end{equation*}
+        where $\left( E_{n} \right)^{\infty}_{n=1}\in\mA^{\N}$ is an increasing chain of sets in $\mA$ with $\mu\left( E_n \right)<\infty$ such that $\bigcup^{\infty}_{n=1} E_n = \Omega$. Then
+        \begin{equation*}
+            \int h_nd\mu \overset{n\to\infty}{\nearrow} \int fd\mu.
+        \end{equation*}
+    \end{lemma}
+
+    \begin{proof}
+        Note that $\left( \int h_{n}d\mu \right)^{\infty}_{n=1}$ is an increasing sequence of nonnegative numbers, so
+        \begin{equation*}
+            \lim_{n\to\infty} \int h_nd\mu
+        \end{equation*}
+        exists (in $\left[ 0,\infty \right]$). Let $h:X\to\R$ be bounded with $0\leq h\leq f$ and a finite measure support. Let $M\in\R$ be such that $h\left( x \right)\leq M$ for all $x\in X$. Then for every $n\geq M$,
+        \begin{equation*}
+            \int h_nd\mu = \int_{E_n} f\wedge nd\mu \geq \int_{E_n} hd\mu = \int hd\mu - \int_{X\setminus E_n} hd\mu
+        \end{equation*}
+        But note that
+        \begin{equation*}
+            \int_{X\setminus E_n}hd\mu = \int_{\left( X\setminus E_n \right)\cap E}hd\mu \leq \int_{\left( X\setminus E_n \right)\cap E}Md\mu = M\mu\left( \left( X\setminus E_n \right)\cap E \right) = M\mu\left( E\setminus E_n \right) \overset{n\to\infty}{\to} 0 .
+        \end{equation*}
+        This means
+        \begin{equation*}
+            \lim_{n\to\infty} \int h_nd\mu \geq \int hd\mu.
+        \end{equation*}
+        By taking $\sup$ over $h$, we see that
+        \begin{equation*}
+            \lim_{n\to\infty}h_nd\mu \geq \int fd\mu.
+        \end{equation*}
+
+        The reverse inequality
+        \begin{equation*}
+            \lim_{n\to\infty}\int h_nd\mu \leq \int fd\mu
+        \end{equation*}
+        is clear from the fact that each $h_n$ is bounded with $0\leq h_n\leq f$ and $\mu\left( h_n^{-1}\left( \R\setminus \left\lbrace 0 \right\rbrace \right) \right) \leq \mu\left( E_n \right) < \infty$, so that
+        \begin{equation*}
+            \int h_nd\mu \leq \int fd\mu.
+        \end{equation*}
+    \end{proof}
+
+    \clearpage
+
+    \begin{lemma}{}
+        Lemma 4.1, 4.2, 4.3 holds for nonnegative measurable functions.
+    \end{lemma}
+
+    \rruleline
+
+    \subsection{Integrable Functions}
+
+    \begin{definition}{\textbf{Integrable} Function}
+        Let $f:X\to\R$ be measurable. We say $f$ is \emph{integrable} if $\int\left| f \right|d\mu<\infty$.
+
+        When $f$ is integrable, we define the \emph{positive part} $f^+$ and \emph{negative part} $f^-$ of $f$ by
+        \begin{equation*}
+            f^+ = f\vee 0, f^- = -\left(f\wedge 0\right).
+        \end{equation*}
+    \end{definition}
+
+    \np We note that $f = f^+-f^-$ and that $\left| f \right| = f^++f^-$.
+
+    \begin{definition}{\textbf{Integral} of an Integrable Function}
+        Let $f:X\to\R$ be integrable. We define the \emph{integral} of $f$, denoted as $\int fd\mu$, by
+        \begin{equation*}
+            \int fd\mu = \int f^+d\mu - \int f^-d\mu.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{theorem}{}
+        Lemma 4.1, 4.2, 4.3 hold for integrable functions.
+    \end{theorem}
+    
+    \rruleline
+
+    \subsection{Limit Theorems of Integration}
+
+    \np We present few useful limit theorems without proof.
+    
+    \begin{theorem}{Fatou's Lemma}
+        Let $\left( f_{n} \right)^{\infty}_{n=1}$ be a sequence of nonnegative integrable function. Then
+        \begin{equation*}
+            \liminf_{n\to\infty} \int f_nd\mu \geq \int \left( \liminf_{n\to\infty}f_n \right)d\mu,
+        \end{equation*}
+        where $\liminf_{n\to\infty}f_n$ is taken pointwise.
+    \end{theorem}
+
+    \rruleline
+
+    \begin{theorem}{Monotone Convergence Theorem (MCT)}
+        Let $\left( f_{n} \right)^{\infty}_{n=1}$ be an increasing sequence of nonnegative integrable functions and let $f:X\to\left[ 0,\infty \right]$ by
+        \begin{equation*}
+            f\left( x \right) = \lim_{n\to\infty}f_n\left( x \right),\hspace{1cm}\forall x\in X.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \lim_{n\to\infty} \int f_nd\mu = \int fd\mu.
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+
+    \begin{theorem}{Dominated Convergence Theorem (DCT)}
+        Let $\left( f_{n} \right)^{\infty}_{n=1}$ be a sequence of integrable function converging pointwise to $f:X\to\R$ $\mu$-ae and suppose $\left| f_n \right|\leq g$ for some integrable $g:X\to\R$. Then
+        \begin{equation*}
+            \lim_{n\to\infty} f_nd\mu = \int fd\mu.
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

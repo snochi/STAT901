@@ -1,0 +1,681 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Convergence of Sequence of Random Variables}
+    
+    \subsection{Characteristic Function}
+    
+    Characteristic function serves as a useful tool in determining convergence of random variables.
+
+    \begin{definition}{\textbf{Characteristic Function} of a Random Variable}
+        Let $X$ be a random variable. We define the \emph{characteristic function} of $X$, denoted as $\phi_X$, by
+        \begin{equation*}
+            \phi_X\left( t \right) = \EE\left( e^{itX} \right), \hspace{2cm}\forall t\in\R.
+        \end{equation*}
+    \end{definition}
+
+    \np Note that
+    \begin{equation*}
+        \phi_X\left( t \right) = \EE\left( \cos\left( tX \right) \right) + i\EE\left( \sin\left( tX \right) \right), \hspace{2cm}\forall t\in\R.
+    \end{equation*}
+    When $X$ admits a pdf $p_X:\R\to\R$, then $\phi_X$ is the \textit{Fourier transform} of $p_X$.
+
+    \np Unlike the moment generating function $\EE\left( e^{tX} \right)$ or the generating function $\EE\left( s^X \right)$ of nonnegative integer valued random variables, the characteristic function always exists.
+
+    \begin{prop}{Properties of Characteristic Functions}
+        Let $X$ be a random variable.
+        \begin{enumerate}
+            \item $\phi_X\left( 0 \right) = 1$.
+            \item $\phi_X\left( -t \right) = \overline{\phi_X\left( t \right)}$ for all $t\in\R$.
+            \item $\left\lVert \phi \right\rVert_{\infty} \leq 1$.
+            \item $\phi_{aX+b}\left( t \right) = e^{itb}\phi\left( at \right)$ for all $t\in\R$.
+        \end{enumerate}
+    \end{prop}
+
+    \rruleline
+
+    \begin{example}{Characteristic Function of Poisson Random Variable}
+        Let $X\sim\poidis\left( \lambda \right)$. That is,
+        \begin{equation*}
+            \PP\left( X=x \right) = \lambda^k \frac{e^{-\lambda}}{k!}, \hspace{2cm}\forall k\geq 0.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \phi_X\left( x \right) = \sum^{\infty}_{k=0} e^{-\lambda} \frac{\lambda^ke^{itk}}{k!} = e^{-\lambda} \sum^{\infty}_{k=0} \frac{\left( \lambda e^{it} \right)^k}{k!} = e^{-\lambda} e^{\lambda e^{it}} = e^{\lambda\left( e^{it}-1 \right)}.
+        \end{equation*}
+
+        Now suppose $Y\sim\poidis\left( \eta \right)$ is independent of $X$. Then
+        \begin{equation*}
+            \phi_{X+Y}\left( t \right) = \EE\left( e^{it\left( X+Y \right)} \right) = \EE\left( e^{itX}e^{itY} \right) = \EE\left( e^{itX} \right)\EE\left( e^{itY} \right) = \phi_X\left( t \right)\phi_Y\left( t \right), \hspace{2cm}\forall t\in\R,
+        \end{equation*}
+        by independence, so that
+        \begin{equation*}
+            \phi_{X+Y}\left( t \right) = e^{\left( \lambda+\eta \right)\left( e^{it}-1 \right)}, \hspace{2cm}\forall t\in\R.
+        \end{equation*}
+        We observe that $\phi_{X+Y}$ is the characteristic function of $\poidis\left( \lambda+\eta \right)$. We ask:
+        \begin{equation*}
+            \text{\textit{does $\phi_{X+Y}$ being the characteristic function of $\poidis\left( \lambda+\eta \right)$ imply that $X+Y\sim\poidis\left( \lambda+\eta \right)$?}}
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \np More generally, we ask:
+    \begin{equation*}
+        \text{\textit{does a characteristic function $\phi_X$ determine the distribution of $X$?}}
+    \end{equation*}
+    The answer is positive, due to the following result.
+
+    \clearpage
+
+    \begin{theorem}{Inversion Formula}
+        Let $X$ be a random variable and let
+        \begin{equation*}
+            \phi\left( t \right) = \int e^{itx}\PP\left( dx \right),\hspace{2cm}\forall t\in\R.
+        \end{equation*}
+        Then for all $a<b$,
+        \begin{equation*}
+            \lim_{T\to\infty} \frac{1}{2\pi} \int^T_{-T} \frac{e^{-ita}-e^{itb}}{it}\phi\left( t \right)dt = \mu\left( \left( a,b \right) \right) + \frac{1}{2}\mu\left( \left\lbrace a,b \right\rbrace \right).
+        \end{equation*}
+    \end{theorem}
+
+    \begin{proof}
+        For convenience, let
+        \begin{equation*}
+            I_T = \int^{T}_{-T} \frac{e^{-ita}-e^{-itb}}{it}\phi\left( t \right)dt, \hspace{2cm}\forall T\in\R.
+        \end{equation*}
+        Then note that
+        \begin{flalign*}
+            && I_T & = \int^{T}_{-T} \frac{e^{-ita}-e^{-itb}}{it}\int e^{itx}\PP\left( dx \right) dt && \\
+            && & = \int\int^{T}_{-T} \frac{e^{-ita}-e^{-itb}}{it} e^{itx} dt\PP\left( dx \right) &&\text{Fubini} \\
+            && & = \int \int^{T}_{-T} \frac{\sin\left( t\left( x-a \right) \right)}{t}dt - \int^{T}_{-T} \frac{\sin\left( t\left( x-b \right) \right)}{t}dt \PP\left( dx \right).
+        \end{flalign*}
+        
+        But for all $\theta>0$,
+        \begin{equation*}
+            \int^{T}_{-T} \frac{\sin\left( \theta t \right)}{t}dt = \int^{T}_{-T} \frac{\sin\left( \theta t \right)}{\theta t} d \theta t = \int^{T\theta}_{-T\theta} \frac{\sin\left( y \right)}{y}dy \overset{T\to\infty}{\to} \int^{\infty}_{-\infty} \frac{\sin\left( y \right)}{y} dy = \pi.
+        \end{equation*}
+        Similarly, for $\theta<0$,
+        \begin{equation*}
+            \int^{T}_{-T} \frac{\sin\left( \theta t \right)}{t}dt \overset{T\to\infty}{\to} -\pi.
+        \end{equation*}
+        For $\theta = 0$,
+        \begin{equation*}
+            \int^{T}_{-T} \frac{\sin\left( \theta t \right)}{t} dt \overset{T\to\infty}{\to} = 0.
+        \end{equation*}
+
+        Therefore,
+        \begin{equation*}
+            \int^{T}_{-T} \frac{\sin\left( t\left( x-a \right) \right)}{t}dt - \int^{T}_{-T} \frac{\sin\left( t\left( x-b \right) \right)}{t}dt \overset{T\to\infty}{\to} \begin{cases} 2\pi & \text{if $a<x<b$} \\ \pi & \text{if $x=a$ or $x=b$} \\ 0 & \text{if $x<a$ or $x>b$} \end{cases} .
+        \end{equation*}
+
+        Note that
+        \begin{equation*}
+            \int^{T}_{-T} \frac{\sin\left( t\left( x-a \right) \right)}{t}dt \leq \sup_{c>0} \int^{c}_{-c} \frac{\sin\left( y \right)}{y} dy = M < \infty, \hspace{2cm}\forall T>0,
+        \end{equation*}
+        so that
+        \begin{equation*}
+            \left| \int^{T}_{-T} \frac{\sin\left( t\left( x-a \right) \right)}{dt} - \int^{T}_{-T} \frac{\sin\left( t\left( x-b \right) \right)}{t}dt \right| \leq 2M.
+        \end{equation*}
+        Hence by the LDCT,
+        \begin{equation*}
+            I_T \overset{T\to\infty}{\to} 2\pi\mu\left( \left( a,b \right) \right) + \pi\mu\left( \left\lbrace a,b \right\rbrace \right),
+        \end{equation*}
+        from which the result follows.
+    \end{proof}
+
+    \np As a corollary to Theorem 8.2 and Example 8.1, we have that,
+    \begin{equation*}
+        \text{$X\sim\poidis\left( \lambda \right),Y\sim\poidis\left( \eta \right)$ are independent} \implies X+Y\sim\poidis\left( \lambda+\eta \right).
+    \end{equation*}
+    
+    \begin{example}{Characteristic Function of Normal Random Variables}
+        Recall that $X$ is a standard normal random variable if and only if
+        \begin{equation*}
+            f_X\left( x \right) = \frac{1}{\sqrt{2\pi}} e^{\frac{-x^{2}}{2}},\hspace{2cm}\forall x\in\R>
+        \end{equation*}
+        The characteristic function of $X$ is given by
+        \begin{flalign*}
+            && \phi_X\left( t \right) = & \EE\left( e^{itX} \right) = \int e^{itx}f\left( x \right)dx = \int \frac{1}{2\pi} e^{itx}e^{-\frac{x^{2}}{2}}dx && \\
+            && & = e^{-\frac{t^{2}}{2}} \int \frac{1}{\sqrt{2\pi}} e^{-\frac{\left( x-it \right)^{2}}{2}} dx = e^{\frac{-t^{2}}{2}} \int \frac{1}{\sqrt{2\pi}} e^{-\frac{y^{2}}{2}}dy = e^{-\frac{t^{2}}{2}},
+        \end{flalign*}
+        for all $t\in\R$.
+
+        For general $Y\sim\normaldis\left( \mu,\sigma^{2} \right)$,
+        \begin{equation*}
+            \phi_Y\left( t \right) = e^{i\mu t - \frac{\sigma^{2}t^{2}}{2}}, \hspace{2cm}\forall t\in\R.
+        \end{equation*}
+
+        In case $Z\sim\normaldis\left( \mu_2,\sigma_2^{2} \right)$ is independent of $Y$,
+        \begin{equation*}
+            \phi_{Y+Z}\left( t \right) = e^{i\left( \mu+\mu_2 \right)t - \frac{\left( \sigma^{2}+\sigma_2^{2} \right)t}{2}},\hspace{2cm}\forall t\in\R,
+        \end{equation*}
+        so that $Y+Z\sim\normaldis\left( \mu+\mu_2,\sigma^{2}+\sigma_2^{2} \right)$.
+    \end{example}
+
+    \rruleline
+
+    \begin{definition}{\textbf{Normal} Random Vector}
+        Let $X = \left( X_1,\ldots,X_n \right)$ be a random vector. We say $X$ is \emph{normal} if any linear combination
+        \begin{equation*}
+            \sum^{n}_{j=1}a_jX_j
+        \end{equation*}
+        is a normal random variable (possibly degenerate).
+
+        We define
+        \begin{equation*}
+            \phi_X\left( t \right) = \EE\left( e^{i\sum^{n}_{j=1}t_jX_j} \right), \hspace{2cm}\forall t\in\R^n.
+        \end{equation*}
+    \end{definition}
+
+    \begin{theorem}{}
+        Let $X$ be a random vector. Then
+        \begin{equation*}
+            X\text{ is normal}\iff \phi_{X}\left( t \right) = e^{i\left\langle t, \mu\right\rangle-\frac{1}{2}\left\langle t, \Sigma t\right\rangle},\hspace{2cm}\forall t\in\R^n,
+        \end{equation*} 
+        where $\mu\in\R^n$ and $\Sigma\in\R^{n\times n}$ is a symmetric positive semidefinite matrix.
+
+        If the implication holds, then $\mu = \left( \EE\left( X_1 \right),\ldots,\EE\left( X_n \right) \right)$ and $\Sigma$ is the covariance matrix of $X$.
+    \end{theorem}
+
+    \begin{proof}
+        ($\impliedby$) Suppose that
+        \begin{equation*}
+            \phi_X\left( t \right) = e^{i\left< t,\mu \right> -\frac{1}{2}\left\langle t, \Sigma t\right\rangle},\hspace{2cm}\forall t\in\R^n.
+        \end{equation*}
+        Then for
+        \begin{equation*}
+            Y = \sum^{n}_{j=1} a_jX_j = \left\langle a, X\right\rangle,
+        \end{equation*}
+        the characteristic function $\phi_Y$ is given by
+        \begin{equation*}
+            \phi_Y\left( t \right) = \EE\left( e^{itY} \right) = \EE\left( e^{it\left< a,X \right> } \right) = \EE\left( e^{i\left\langle ta, X\right\rangle} \right) = \phi_X\left( ta \right) = e^{i\left\langle ta, \mu\right\rangle-\frac{1}{2}\left\langle ta, \Sigma ta\right\rangle} = e^{it\left\langle a, \mu\right\rangle-\frac{t^{2}}{2}\left< a,\Sigma a \right> },\hspace{2cm}\forall t\in\R,
+        \end{equation*}
+        which is the characteristic function of a normal distribution $\normaldis\left( a^{T}\mu, a^{T}\Sigma a \right)$.
+
+        ($\implies$) Suppose $X$ is normal. The for any $a\in\R^n$, consider
+        \begin{equation*}
+            Y = a^{T}X.
+        \end{equation*}
+        Then $Y$ is a normal random variable with
+        \begin{equation*}
+            \EE\left( Y \right) = a^{T}\mu
+        \end{equation*}
+        and
+        \begin{equation*}
+            \var\left( Y \right) = a^{T}\Sigma a.
+        \end{equation*}
+        This means
+        \begin{equation*}
+            \phi_Y\left( t \right) = e^{ita^{T}\mu-\frac{t^{2}}{2}a^{T}\Sigma a},\hspace{2cm}\forall t\in\R.
+        \end{equation*}
+        Hence
+        \begin{equation*}
+            \phi_X\left( a \right) = \EE\left( e^{ia^{T}X} \right) = \EE\left( e^{iY} \right) = \phi_Y\left( 1 \right) = e^{ia^{T}\mu-\frac{1}{2}a^{T}\Sigma a}.
+        \end{equation*}
+    \end{proof}
+
+    \np In words, the distribution of a normal random variable is completely determined by its mean vector and covariance matrix.
+
+    \begin{cor}{}
+        Let $X\sim\normaldis\left( \mu,\Sigma \right)$, then for any $A\in\R^{m\times n}$,
+        \begin{equation*}
+            AX \sim \normaldis\left( A\mu, A\Sigma A^{T} \right).
+        \end{equation*}
+    \end{cor}	
+
+    \rruleline
+
+    \begin{cor}{}
+        Let $X\sim\normaldis\left( \mu,\Sigma \right)$. Then for all $i,j\in\left\lbrace 1,\ldots,n \right\rbrace$,
+        \begin{equation*}
+            \text{$X_i,X_j$ are independent} \iff \cov\left( X_i,X_j \right) = 0.
+        \end{equation*}
+    \end{cor}	
+
+    \rruleline
+
+    \subsection{Convergence}
+    
+    \begin{definition}{\textbf{Almost Sure} Convergence}
+        We say a sequence $\left( X_{n} \right)^{\infty}_{n=1}$ of random variables converges (pointwise) \emph{almost surely} to a random variable $X$ if
+        \begin{equation*}
+            \PP\left( \left\lbrace \omega\in\Omega : \lim_{n\to\infty} X_n\left( \omega \right) = X_n\left( \omega \right) \right\rbrace \right) = 1.
+        \end{equation*}
+        We write $X_n\overset{\text{as}}{\to} X$.
+    \end{definition}
+
+    \begin{definition}{Convergence in $\mL^p$}
+        We say a sequence $\left( X_{n} \right)^{\infty}_{n=1}$ of random variables converges in $\mL^p$ to a random variable $X$ if $X\in\mL^p$ (i.e. $\left\lVert X\right\rVert_p < \infty$) and
+        \begin{equation*}
+            \lim_{n\to\infty}\EE\left( \left| X_n-X \right|^p \right) = 0.
+        \end{equation*}
+        That is,
+        \begin{equation*}
+            \left\lVert X_n-X\right\rVert_p = \left(\int_{\Omega}\left| X_n-X \right|^pd\PP\right)^{\frac{1}{p}} \to 0.
+        \end{equation*}
+        We write $X_n\overset{\mL^p}{\to}X$.
+    \end{definition}
+    
+    \np Observe that
+    \begin{equation*}
+        X_n\overset{\mL^p}{\to} X \implies \EE\left( X_n^p \right)\to \EE\left( X^p \right).
+    \end{equation*}
+
+    \clearpage
+
+    \begin{definition}{Convergence in \textbf{Probability}}
+        We say a sequence $\left( X_{n} \right)^{\infty}_{n=1}$ of random variables converges in \emph{probability} to a random variable $X$ if for every $\epsilon>0$,
+        \begin{equation*}
+            \lim_{n\to\infty} \PP\left( \left\lbrace \omega\in\Omega: \left| X_n\left( \omega \right)-X\left( \omega \right) \right|>\epsilon \right\rbrace \right) = 0.
+        \end{equation*}
+        We write $X_n\overset{\PP}{\to}X$.
+    \end{definition}
+
+    \begin{prop}{}
+        Let $\left( X_{n} \right)^{\infty}_{n=1}$ be a sequence of random variables. Then
+        \begin{enumerate}
+            \item $X_n\overset{\text{as}}{\to}X \implies X_n\overset{\PP}{\to}X$; and
+            \item for every $p\geq 1$, $X_n\overset{\mL^p}{\to}X \implies X_n\overset{\PP}{\to}X$.
+        \end{enumerate}
+    \end{prop}
+
+    \begin{proof}
+        PMATH 451.
+    \end{proof}
+
+    \begin{prop}{}
+        Let $p<q$ in $\left[ 1,\infty \right)$. Then
+        \begin{equation*}
+            X_n\overset{\mL^q}{\to}X \implies X_n\overset{\mL^p}{\to}X.
+        \end{equation*}
+    \end{prop}
+
+    \begin{proof}
+        Let $\epsilon\in\left( 0,1 \right)$. Then
+        \begin{equation*}
+            \EE\left( \left| X_n-X \right|^p \right) = \EE\left( \left| X_n-X \right|^p\chi_{\left\lbrace \left| X_n-X \right|\geq \epsilon \right\rbrace} \right) + \EE\left( \left| X_n-X \right|^p\chi_{\left\lbrace \left| X_n-X \right|<\epsilon \right\rbrace} \right).
+        \end{equation*}
+        But when $\left| X_n-X \right|\geq\epsilon$,
+        \begin{equation*}
+            \left| X_n-X \right|^p \leq \epsilon^{p-q} \left| X_n-X \right|^q,
+        \end{equation*}
+        so that
+        \begin{equation*}
+            \EE\left( \left| X_n-X \right|^p \right) \leq \epsilon^{p-q} \EE\left( \left| X_n-X \right|^q\chi_{\left\lbrace \left| X_n-X \right|\geq\epsilon \right\rbrace} \right)+\epsilon^p \leq \EE\left( \left| X_n-X \right|^q \right) + \epsilon^p.
+        \end{equation*}
+        Hence
+        \begin{equation*}
+            \limsup_{n\to\infty} \EE\left( \left| X_n-X \right|^p \right) = \epsilon^{p-q}\limsup_{n\to\infty}\EE\left( \left| X_n-X \right|^q \right)+\epsilon^p = \epsilon^p,
+        \end{equation*}
+        so by taking $\epsilon\to 0$, we see that
+        \begin{equation*}
+            \limsup_{n\to\infty}\EE\left( \left| X_n-X \right|^p \right) = 0.
+        \end{equation*}
+    \end{proof}
+
+    \np In general, convergence in probability does not imply convergence in $L^p$ or almost sure convergence.
+
+    \begin{example}{}
+        Consider $\left( \left( 0,1 \right),\mB\left( \left( 0,1 \right) \right), m \right)$, where $m$ is the Lebesgue measure. For all $n\in\N$, consider $k_n\in\N$ such that $1+\cdots+k_n < n \leq 1+\cdots+\left( k_n+1 \right)$. Define
+        \begin{equation*}
+            \begin{aligned}
+                X_n : \left( 0,1 \right) & \to \R \\
+                x&\mapsto \begin{cases} 1 & \text{if $n-k_n-1 < x < n-k_n$} \\ 0 & \text{otherwise} \end{cases}
+            \end{aligned} .
+        \end{equation*}
+        Then observe that $X_n\to 0$ in probability and in $L^p$ (for all $p\geq 1$), but $X_n$ does not converge almost surely to $0$.
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{}
+        Again consider $\left( \left( 0,1 \right),\mB\left( \left( 0,1 \right) \right), m \right)$ with
+        \begin{equation*}
+            \begin{aligned}
+                X_n : \left( 0,1 \right) & \to \R \\
+                x & \mapsto \begin{cases} n & \text{if $x<\frac{1}{n}$} \\ 0 & \text{otherwise} \end{cases}
+            \end{aligned} .
+        \end{equation*}
+        Then observe that $X_n\to 0$ in probability and almost surely, but $X_n$ does not converge to $0$ in $L^p$.
+    \end{example}
+
+    \rruleline
+
+    \begin{prop}{}
+        Let $\left( X_{n} \right)^{\infty}_{n=1}$ be a sequence of random variables such that $X_n\to X$ in probability. Then there exists a subsequence $\left( X_{n_k} \right)^{\infty}_{k=1}$ such that $X_{n_k}\to X$ almost surely.
+    \end{prop}
+
+    \begin{proof}
+        PMATH 451.
+    \end{proof}
+
+    \begin{definition}{\textbf{Uniformly Integrable} Collection of Random Variables}
+        We say a collection $\mC$ of random variables is \emph{uniformly integrable} if
+        \begin{equation*}
+                \lim_{k\to\infty}\sup_{f\in\mC} \int_{\left| X \right|>k} \left| X \right|d\PP = \lim_{k\to\infty}\sup_{f\in\mC}\EE\left( \left| X \right|\chi_{\left| X \right|>k} \right) = 0
+        \end{equation*}
+    \end{definition}
+
+    \begin{prop}{}
+        Let $\left( X_{n} \right)^{\infty}_{n=1}$ be a sequence of random variables such that $X_n\to X$ in probability. If $\left( X_{n} \right)^{\infty}_{n=1}$ is uniformly integrable in addition, then $X_n\to X$ in $L^1$.
+    \end{prop}
+
+    \begin{proof}
+        Without loss of generality, assume $X=0$.
+
+        Let $\epsilon>0$ be fixed. Since $\left( X_{n} \right)^{\infty}_{n=1}$ is uniformly integrable, there is $t_{\epsilon}>0$ such that
+        \begin{equation*}
+            \EE\left( \left| X_n \right|\chi_{\left| X_n \right|>t_{\epsilon}} \right) < \epsilon, \hspace{2cm}\forall n\in\N.
+        \end{equation*}
+        Since $X_n\to 0$ in probability, there is $N_{\epsilon}$ such that for all $n\geq N_{\epsilon}$,
+        \begin{equation*}
+            \PP\left( \left| X_n \right|>\epsilon \right) < \frac{\epsilon}{t_{\epsilon}}.
+        \end{equation*}
+        Hence for $n\geq N_{\epsilon}$,
+        \begin{equation*}
+            \EE\left( \left| X_n \right| \right) = \int_{\left\lbrace \left| X_n \right|\leq\epsilon \right\rbrace} \left| X_n \right|d\PP + \int_{\left\lbrace \epsilon<\left| X_n \right|\leq t_{\epsilon} \right\rbrace} \left| X_n \right|d\PP + \int_{\left\lbrace \left| X_n \right|>t_{\epsilon} \right\rbrace}\left| X_n \right|d\PP \leq \int_{\left\lbrace \left| X_n \right|\leq\epsilon \right\rbrace} \epsilon d\PP + t_{\epsilon} \PP\left( \left| X_n \right|>\epsilon \right)+ \epsilon \leq 3\epsilon.
+        \end{equation*}
+        Since $\epsilon>0$ was chosen arbitrarily, we conclude that
+        \begin{equation*}
+            \EE\left( \left| X_n \right| \right) \to 0,
+        \end{equation*}
+        as required.
+    \end{proof}
+        
+    \begin{definition}{Convergence in \emph{Distribution}}
+        We say a sequence $\left( X_{n} \right)^{\infty}_{n=1}$ of random variables with pdfs $F_1,F_2,\ldots:\R\to\left[ 0,1 \right]$ converges in \emph{distribution} to a random variable $X$ with pdf if $F_n\to F$ pointwise except possibly at points where $F$ is discontinuous.
+    \end{definition}
+
+    \begin{example}{}
+        Consider independent trials until the first success, with success probability $p$. The the number of trials $X_p$ until a success has geometric distribution with parameter $p$:
+        \begin{equation*}
+            \PP\left( X_p=n \right) = p\left( 1-p \right)^{n-1}, \hspace{2cm}\forall n\in\N.
+        \end{equation*}
+        This means
+        \begin{equation*}
+            \PP\left( X_p>n \right) = \left( 1-p \right)^n.
+        \end{equation*}
+        As $p\to 0$,
+        \begin{equation*}
+            \lim_{p\to 0} \PP\left( pX_p>x \right) = \lim_{p\to 0}\PP\left( X_p > \frac{x}{p} \right) = \lim_{p\to 0} \left( 1-p \right)^{\frac{x}{p}} = e^{-x},\hspace{2cm}\forall x\geq 0.
+        \end{equation*}
+        This means
+        \begin{equation*}
+            \PP\left( pX_p \leq x \right) \to 1-e^{-x},\hspace{2cm}\forall x\geq 0,
+        \end{equation*}
+        which is the pdf of exponential distribution.
+    \end{example}
+    
+    \rruleline
+
+    \begin{prop}{}
+        Let $\left( X_{n} \right)^{\infty}_{n=1}$ be a sequence of random variables. If $X_n\to X$ in probability, then $X_n\to X$ in distribution.
+    \end{prop}
+
+    \rruleline
+
+    \begin{prop}{}
+        Let $\left( X_{n} \right)^{\infty}_{n=1}$ be a sequence of random variables such that $X_n\to c$ in distribution for some constant $c\in\R$. Then $X_n\to c$ in probability.
+    \end{prop}
+
+    \begin{proof}
+        For any $\epsilon>0$, observe that
+        \begin{equation*}
+            \PP\left( \left| X_n-c \right|\leq\epsilon \right) = \PP\left( c-\epsilon\leq X_n\leq c+\epsilon \right) \geq \PP\left( c-\epsilon<X_n\leq c+\epsilon \right) = F_{X_n}\left( c+\epsilon \right)-F_{X_n}\left( c-\epsilon \right),\hspace{2cm}\forall n\in\N.
+        \end{equation*}
+        Since $F_c = \chi_{\left[ c,\infty \right)}$, so that $F_n\left( c+\epsilon \right) \to F_c\left( c+\epsilon \right) = 1$ and $F_n\left( c-\epsilon \right) = F_c\left( c-\epsilon \right) = 0$. Thus
+        \begin{equation*}
+            \liminf_{n\to\infty} \PP\left( \left| X_n-c \right|\leq\epsilon \right) \geq 1,
+        \end{equation*}
+        which imply that
+        \begin{equation*}
+            \lim_{n\to\infty}\PP\left( \left| X_n-c \right|\leq\epsilon \right) = 1.
+        \end{equation*}
+    \end{proof}
+
+    \begin{theorem}{Skorokhod's Theorem}
+        Let $\left( X_{n} \right)^{\infty}_{n=1}$ be a sequence of random variables such that $X_n\to X$ in distribution. Then there is a probability space $\left( \Omega,\mF,\PP \right)$ and a sequence of random variables $\left( Y_n \right)^{\infty}_{n=1}$ such that $Y_n\to Y$ for some random variable $Y$ on $\left( \Omega,\mF,\PP \right)$, $X_n=Y_n, X=Y$ in distribution.
+    \end{theorem}
+
+    \rruleline
+
+    \begin{definition}{\textbf{$\mu$-continuity Set}}
+        Let $\left( X,\mA,\mu \right)$ be a measure space, where $X$ is a topological space. We say $A\in\mA$ is a \emph{$\mu$-continuity set} if
+        \begin{equation*}
+            \mu\left( \partial A \right) = 0.
+        \end{equation*}
+    \end{definition}
+
+    \begin{theorem}{Portmanteau Theorem}
+        Let $\left( X_{n} \right)^{\infty}_{n=1}$ be a sequence of random variables and let $X$ be a random variable. The following are equivalent.
+        \begin{enumerate}
+            \item $X_n\to X$ in distribution.
+            \item $\EE\left( f\left( X_n \right) \right)\to\EE\left( f\left( X \right) \right)$ for all bounded continuous function $f:\R\to\R$.
+            \item $\mu_{X_n}\left( A \right)\to\mu_X\left( A \right)$ for every $\mu$-continuity set $A\in\Bor\left( \R \right)$.
+        \end{enumerate}
+    \end{theorem}
+
+    \rruleline
+
+    \begin{theorem}{Helly's Selection Theorem}
+        Let $\left( F_{n} \right)^{\infty}_{n=1}$ be a sequence of distribution functions. Then there is a subsequence $\left( F_{n_k} \right)^{\infty}_{k=1}$ and a right-continuous nondecreasing function $F$ such that
+        \begin{equation*}
+            \lim_{k\to\infty} F_{n_k}\left( y \right) = F\left( y \right)
+        \end{equation*}
+        for all $y$ at which $F$ is continuous.
+    \end{theorem}
+
+    \begin{proof}
+        Assume we count the rational numbers as $\left\lbrace q_j \right\rbrace^{\infty}_{j=1}$. Since $\left( F_{n}\left( q_1 \right) \right)^{\infty}_{n=1}$ is bounded, there is a subsequence $\left( F_{m_1\left( k \right)} \right)^{\infty}_{k=1}$ such that
+        \begin{equation*}
+            F_{m_1\left( k \right)}\left( q_1 \right) \to G\left( q_1 \right)\in\R.
+        \end{equation*}
+        Take a subsequence $\left( F_{m_2\left( k \right)} \right)^{\infty}_{k=1}$ of $\left( F_{m_1\left( k \right)} \right)^{\infty}_{k=1}$ so that
+        \begin{equation*}
+            F_{m_2\left( k \right)}\left( q_2 \right)\to G\left( q_2 \right)\in\R.
+        \end{equation*}
+        Continue this process to obtain subsequences. Then we can use a diagonal argument as follows. Note that we have
+        \begin{equation*}
+            \begin{matrix}
+                F_{m_1\left( 1 \right)} & F_{m_1\left( 2 \right)} & F_{m_1\left( 3 \right)} & \cdots \\
+                F_{m_2\left( 1 \right)} & F_{m_2\left( 2 \right)} & F_{m_2\left( 3 \right)} & \cdots \\
+                F_{m_3\left( 1 \right)} & F_{m_3\left( 2 \right)} & F_{m_3\left( 3 \right)} & \cdots \\
+            	\vdots & \vdots & \vdots & \ddots \\
+            \end{matrix}.
+        \end{equation*}
+        Take the \textit{diagonal} sequence $\left( F_{m_k\left( k \right)} \right)^{\infty}_{k=1}$; then observe that
+        \begin{equation*}
+            F_{m_k\left( k \right)}\left( q \right)\to G\left( q \right), \hspace{2cm}\forall q\in\Q.
+        \end{equation*}
+        Then $G$ is non-decreasing but it may be the case that $G$ is not right-continuous. To resolve this, take
+        \begin{equation*}
+            F\left( x \right) = \inf_{q\in\Q, q>x} G\left( q \right), \hspace{2cm}\forall x\in\R.
+        \end{equation*}
+        Then $F$ is non-decreasing and right-continuous with $F_{m_k\left( k \right)}\left( y \right)\to F\left( y \right)$ for all $y$ at which $F$ is continuous.
+    \end{proof}
+
+    \np Note that the limit function $F$ we obtain from Helly's selection theorem may not be a distribution function.
+
+    \begin{definition}{\textbf{Tight} Family of Probability Measures on $\left( \R,\Bor\left( \R \right) \right)$}
+        Let $\left\lbrace \mu_n \right\rbrace^{\infty}_{n=1}$ be a family of probability measures on $\left( \R,\Bor\left( \R \right) \right)$. We say $\left\lbrace \mu_n \right\rbrace^{\infty}_{n=1}$ is \emph{tight} if for every $\epsilon>0$, there is $M>0$ such that
+        \begin{equation*}
+            \liminf_{n\to\infty}\mu_n\left( \left[ -M,M \right] \right) \geq 1-\epsilon.
+        \end{equation*}
+    \end{definition}
+
+    \np Note that
+    \begin{equation*}
+        \liminf_{n\to\infty}\mu_n\left( \left[ -M,M \right] \right) \geq 1-\epsilon \iff \limsup_{n\to\infty}1-F_n\left( M \right)+F_n\left( -M \right) < \epsilon.
+    \end{equation*}
+
+    \begin{theorem}{}
+        Let $\left\lbrace \mu_n \right\rbrace^{\infty}_{n=1}$ be a family of probability measures on $\left( \R,\Bor\left( \R \right) \right)$. Then $\left\lbrace \mu_n \right\rbrace^{\infty}_{n=1}$ is tight if and only if it admits a subsequence that converges weakly to a probability measure.
+    \end{theorem}
+
+    \begin{proof}
+        ($\implies$) By Helly's selection theorem, there is a subsequence $\left( F_{n_k} \right)^{\infty}_{k=1}$ such that $F_{n_k}\to F$ at points where $F$ is continuous. It remains to show that $\lim_{y\to-\infty}F\left( y \right) = 0$ and $\lim_{y\to\infty}F\left( y \right)=1$.
+
+        Since $F_{n_k}\to F$ ae,
+        \begin{equation*}
+            0\leq \lim_{y\to-\infty}F\left( y \right) \leq \lim_{y\to\infty} F\left( y \right) \leq 1.
+        \end{equation*}
+        Hence it suffices to show that
+        \begin{equation*}
+            \lim_{y\to\infty} F\left( y \right)-F\left( -y \right) = 1.
+        \end{equation*}
+        For $\epsilon>0$, define $M_{\epsilon}$ such that
+        \begin{equation*}
+            \limsup_{n\to\infty} 1- F_n\left( M_{\epsilon} \right) + F_n\left( -M_{\epsilon} \right) \leq \epsilon.
+        \end{equation*}
+        Take $r<-M_{\epsilon}, s>M_{\epsilon}$ to be continuity points of $F$. Then
+        \begin{equation*}
+            1-F\left( s \right)+F\left( r \right) = \lim_{k\to\infty} 1-F_{n_k}\left( s \right)+F_{n_k}\left( r \right)  \leq \limsup_{n\to\infty} 1-F_n\left( M_{\epsilon} \right) + F_n\left( -M_{\epsilon} \right) \leq \epsilon.
+        \end{equation*}
+        Hence
+        \begin{equation*}
+            \lim_{y\to\infty} F\left( y \right)-F\left( -y \right)\geq F\left( s \right)-F\left( r \right)\geq 1-\epsilon
+        \end{equation*}
+        holds for any $\epsilon>0$, so that $\lim_{y\to\infty}F\left( y \right)-F\left( -y \right)=1$, as needed.
+
+        ($\impliedby$) Suppose $\left\lbrace \mu_n \right\rbrace^{\infty}_{n=1}$ is not tight. Then there is $\epsilon>0$ and a subsequence $\left( F_{n_k} \right)^{\infty}_{k=1}$ such that
+        \begin{equation*}
+            1-F_{n_k}\left( M \right)+F_{n_k}\left( -M \right)\geq \epsilon, \hspace{2cm}\forall M>0.
+        \end{equation*}
+        By Helly's selection, there exist a subsequence $\left( F_{n_k} \right)^{\infty}_{k=1}$ such that $F_{n_k}\left( x \right)\to F\left( x \right)$ for all continuity point $x$ of $F$. Let $r<0<s$ be continuity points of $F$. Then
+        \begin{equation*}
+            1-F\left( s \right)+F\left( r \right) = \lim_{k\to\infty} 1-F_{n_k}\left( s \right)+F_{n_k}\left( r \right) \geq \liminf_{k\to\infty} 1-F_{n_k}\left( s \right)+F_{n_k}\left( r \right) \geq \epsilon.
+        \end{equation*}
+        Taking $r\to-\infty,s\to\infty$, we obtain
+        \begin{equation*}
+            F\left( \infty \right)-F\left( -\infty \right) \leq 1-\epsilon < 1.
+        \end{equation*}
+        Thus $F$ is not a distribution function.
+    \end{proof}
+
+    \begin{prop}{}
+        Let $\phi$ be the characteristic function of a probability measure $\mu$ on $\left( \R,\Bor\left( \R \right) \right)$, then $\phi$ is continuous on $\R$.
+    \end{prop}
+    
+    \rruleline
+
+    \begin{prop}{}
+        If $\left( \mu_{n} \right)^{\infty}_{n=1}$ is a tight sequence of probability measure such that every weakly convergent subsequence converges to a same limit $\mu$, then $\mu_n\to\mu$ weakly.
+    \end{prop}
+
+    \begin{proof}
+        Suppose $\mu_n\not\to\mu$ weakly. Then there is a point $x$ at which the distribution $F$ of $\mu$ is continuous and $F_n\left( x \right)\not\to F\left( x \right)$, where each $F_n$ is the distribution of $\mu_n$. Hence there is $\epsilon>0$ such that
+        \begin{equation*}
+            \left| F_n\left( x \right)-F\left( x \right) \right|\geq\epsilon
+        \end{equation*}
+        for infinitely many $n$. Hence take a subsequence $\left( \mu_{n_k} \right)^{\infty}_{k=1}$ such that
+        \begin{equation*}
+            \left| F_{n_k}\left( x \right)-F\left( x \right) \right| \geq \epsilon
+        \end{equation*}
+        for all $k\in\N$. Since $\left( \mu_{n} \right)^{\infty}_{n=1}$ is tight, so is $\left( \mu_{n_k} \right)^{\infty}_{k=1}$. By tightness, there is another subsequence $\left( \mu_{n_{k_j}} \right)^{\infty}_{j=1}$ that converges weakly. But then
+        \begin{equation*}
+            \left| F_{n_{k_j}}\left( x \right)-F\left( x \right) \right|\geq\epsilon, \hspace{2cm}\forall j\in\N,
+        \end{equation*}
+        which contradicts assumption that every weakly convergent subsequence of $\left( \mu_{n} \right)^{\infty}_{n=1}$ converges to $\mu$.
+    \end{proof}
+
+    \begin{theorem}{Continuity Theorem}
+        Let $\mu_1,\mu_2,\ldots,\mu$ be probability measures on $\left( \R,\Bor\left( \R \right) \right)$ with characteristic functions $\phi_1,\phi_2,\ldots,\phi$, respectively. Then
+        \begin{equation*}
+            \mu_n\to\mu\text{ weakly} \iff \phi_n\to\phi\text{ pointwise}.
+        \end{equation*}
+    \end{theorem}
+
+    \begin{proof}
+        ($\implies$) Suppose $\mu_n\to\mu$ weakly. For a fixed $t\in\R$, note that $e^{itx}$ is a continuous bounded function of $x$, so by the Portmanteau theorem, 
+        \begin{equation*}
+            \phi_n\left( t \right) = \int e^{itx}d\mu_n\left( x \right) \to \int e^{itx}d\mu\left( x \right) = \phi\left( t \right).
+        \end{equation*}
+        But this precisely means $\phi_n\to\phi$ pointwise, since the choice of $t$ was arbitrary.
+
+        ($\impliedby$) We consider the following claim.
+
+        \begin{claim}
+            \textit{$\left( \mu_{n} \right)^{\infty}_{n=1}$ is tight.}
+
+            Note that, given $u>0$,
+            \begin{equation*}
+                \begin{aligned}
+                    \frac{1}{u} \int^{u}_{-u} 1-\phi_n\left( t \right) dt = \int \frac{1}{u} \int^{u}_{-u} 1-e^{itx}dt d\mu_n\left( x \right) = 2 \int 1-\frac{\sin\left( ux \right)}{ux} d\mu_n\left( x \right) & \\
+                    \geq 2 \int^{}_{\left( -\infty,-\frac{2}{u} \right]\cup\left[ \frac{2}{u},\infty \right)} 1-\frac{1}{\left| ux \right|} d\mu_n\left( x \right) \geq \mu_n\left( \left( -\infty, -\frac{2}{u} \right]\cup\left[ \frac{2}{u},\infty \right)\right)
+                \end{aligned} 
+            \end{equation*}
+            Since $\phi$ is continuous and $\phi\left( 0 \right)=1$,
+            \begin{equation*}
+                \lim_{u\to 0} \frac{1}{u}\int^{u}_{-u} \left( 1-\phi\left( t \right) \right)dt = 0.
+            \end{equation*}
+            Hence for any $\epsilon>0$, there is $u>0$ such that
+            \begin{equation*}
+                \frac{1}{u} \int^{u}_{-u} \left( 1-\phi\left( t \right) \right)dt < \frac{\epsilon}{2}.
+            \end{equation*}
+            Since $\phi_n\to\phi$ pointwisely and $1-\phi_n\leq 1$, by the Lebesgue dominated convergence theorem,
+            \begin{equation*}
+                \frac{1}{u} \int^{u}_{-u} \left( 1-\phi_n\left( t \right) \right)dt \to \frac{1}{u} \int^{u}_{-u} \left( 1-\phi\left( t \right) \right)dt.
+            \end{equation*}
+            So there is $N\in\N$ such that for all $n\geq N$,
+            \begin{equation*}
+                \frac{1}{u} \int^{u}_{-u} 1-\phi_n\left( t \right)dt < \epsilon.
+            \end{equation*}
+            Hence
+            \begin{equation*}
+                \mu_n\left( \left( -\infty,-\frac{2}{u} \right]\cup\left[ \frac{2}{u},\infty \right) \right) < \epsilon
+            \end{equation*}
+            for all $n\geq N$, which implies
+            \begin{equation*}
+                \limsup_{n\to\infty} \mu_n\left( \left( -\infty,-\frac{2}{u} \right]\cup\left[ \frac{2}{u},\infty \right) \right) < \epsilon.
+            \end{equation*}
+            Since the choice of $\epsilon$ was arbitrary, it follows $\left( \mu_{n} \right)^{\infty}_{n=1}$ is tight.
+        \end{claim}
+
+        Assume a subsequence $\left( \mu_{n_k} \right)^{\infty}_{k=1}$ converges weakly to $\mu'$. By the forward direction, we konw that $\phi_{n_k}\to\phi'$ pointwise, where $\phi'$ is the characteristic function of $\mu'$. But we know that $\phi_n\to\phi$ pointwise, so that $\phi=\phi'$. Since the characteristic function completely determines the distribution, we conclude that $\mu=\mu'$. It follows that every weakly convergent subsequence converges to $\mu$, so by Proposition 8.12, $\mu_n\to\mu$ weakly, as needed.
+    \end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

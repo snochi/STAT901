@@ -1,0 +1,379 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Sequence of Events}
+
+    \subsection{Conditional Probability}
+
+    Fix a probability space $\left( \Omega,\mF,\PP \right)$.
+    
+    \begin{definition}{\textbf{Conditional Probability}}
+        Let $A\in\mF$ be such that $\PP\left( A \right) > 0$. Then we define the \emph{conditional probability} of $B$ given $A$, denoted as $\PP\left( B|A \right)$, as
+        \begin{equation*}
+            \PP\left( B|A \right) = \frac{\PP\left( A\cap B \right)}{\PP\left( A \right)}.
+        \end{equation*}
+    \end{definition}
+
+    \np Recall the following properties of conditional probability.
+
+    \begin{prop}{Chain Rule}
+        Let $\left\lbrace A_k \right\rbrace^{n}_{k=1}\subseteq\mF$. Then
+        \begin{equation*}
+            \PP\left( \bigcap^{n}_{k=1}A_k \right) = \prod^{n}_{k=1} \PP\left( A_k | \bigcap^{k-1}_{j=1} A_j \right).
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+
+    \begin{prop}{Law of Total Probability}
+        Suppose that $\left\lbrace A_n \right\rbrace^{\infty}_{n=1}\subseteq\mF$ is a partition of $\Omega$. Then
+        \begin{equation*}
+            \PP\left( B \right) = \sum^{\infty}_{n=1} \PP\left( A_n \right)\PP\left( B|A_n \right),\hspace{1cm}\forall B\in\mF.
+        \end{equation*}
+    \end{prop}
+    
+    \rruleline
+    
+    \subsection{Limit of Events}
+    
+    \begin{recall}{\textbf{Limit Superior}, \textbf{Limit Inferior}, \textbf{Limit} of a Sequence of Sets}
+        Let $\left( A_{n} \right)^{\infty}_{n=1}$ be a sequence of sets. Then the \emph{limit superior} of $\left( A_{n} \right)^{\infty}_{n=1}$, denoted as $\limsup_{n\to\infty} A_n$, is defined as
+        \begin{equation*}
+            \limsup_{n\to\infty} A_n = \bigcap^{\infty}_{n=1}\bigcup^{\infty}_{k=n} A_k.
+        \end{equation*}
+        That is,
+        \begin{equation*}
+            w\in\limsup_{n\to\infty} A_n \iff \forall n\in\N\exists k\geq n \left[ w\in A_k \right].\footnotemark[1]
+        \end{equation*}
+        
+        The \emph{limit inferior} of $\left( A_{n} \right)^{\infty}_{n=1}$, denoted as $\liminf_{n\to\infty}A_n$, is defined as
+        \begin{equation*}
+            \liminf_{n\to\infty} A_n = \bigcup^{\infty}_{n=1}\bigcap^{\infty}_{k=n} A_k.
+        \end{equation*}
+        That is,
+        \begin{equation*}
+            w\in\liminf_{n\to\infty}A_n \iff \exists n\in\N\forall k\geq n\left[ w\in A_k \right].\footnotemark[2]
+        \end{equation*}
+
+        In case
+        \begin{equation*}
+            \limsup_{n\to\infty} A_n = \liminf_{n\to\infty} A_n,
+        \end{equation*}
+        we say $\left( A_{n} \right)^{\infty}_{n=1}$ has a \emph{limit}, denoted as $\lim_{n\to\infty}A_n$:
+        \begin{equation*}
+            \lim_{n\to\infty} A_n = \limsup_{n\to\infty} A_n = \liminf_{n\to\infty} A_n.
+        \end{equation*}
+        
+        \noindent
+        \begin{minipage}{\textwidth}
+            \footnotetext[1]{We \textit{dub} this as $w\in A_n$ \textit{infinitely often (i.o.)}.}
+            \footnotetext[2]{We \textit{dub} this as $w\in A_n$ \textit{almost always (a.a.)}.}
+        \end{minipage}
+    \end{recall}
+    
+    \clearpage
+    \begin{theorem}{}
+        Let $\left( A_{n} \right)^{\infty}_{n=1}\in\mF^{\N}$.
+        \begin{enumerate}
+            \item We have
+                \begin{equation*}
+                    \PP\left( \liminf_{n\to\infty}A_n \right) \leq \liminf_{n\to\infty}\PP\left( A_n \right)\leq\limsup_{n\to\infty}\PP\left( A_n \right)\leq\PP\left( \limsup_{n\to\infty}A_n \right).
+                \end{equation*}
+            \item If $\lim_{n\to\infty}A_n = A$, then $\lim_{n\to\infty}\PP\left( A_n \right)=\PP\left( A \right)$.
+        \end{enumerate}
+    \end{theorem}
+
+    \begin{proof}
+        \begin{enumerate}
+            \item Define $B_n = \bigcap^{\infty}_{k=n} A_k, C_n = \bigcup^{\infty}_{k=n} A_k$ for all $n\in\N$. Then $\left( B_{n} \right)^{\infty}_{n=1}$ is an increasing chain with $\bigcup^{\infty}_{n=1} B_n = \liminf_{n\to\infty} A_n$ and $\left( C_{n} \right)^{\infty}_{n=1}$ is an decreasing chain with $\bigcap^{\infty}_{n=1} C_n = \limsup_{n\to\infty} A_n$. So by the continuity of probability measure,
+                \begin{equation*}
+                    \begin{aligned}
+                        \lim_{n\to\infty}\PP\left( B_n \right) & = \PP\left( \liminf_{n\to\infty}A_n \right) \\
+                        \lim_{n\to\infty}\PP\left( C_n \right) & = \PP\left( \limsup_{n\to\infty}A_n \right) \\
+                    \end{aligned} .
+                \end{equation*}
+                Since $B_n\subseteq A_n\subseteq C_n$, we have
+                \begin{equation*}
+                    \liminf_{n\to\infty}\PP\left( A_n \right) \geq \lim_{n\to\infty} \PP\left( B_n \right) = \PP\left( \liminf_{n\to\infty}A_n \right) 
+                \end{equation*}
+                and
+                \begin{equation*}
+                    \limsup_{n\to\infty}\PP\left( A_n \right)\leq\lim_{n\to\infty}\PP\left( C_n \right) = \PP\left( \limsup_{n\to\infty}A_n \right).
+                \end{equation*}
+
+            \item This follows immediately from the definition of set limit and (a).
+        \end{enumerate}
+    \end{proof}
+    
+    \subsection{Independence}
+    
+    \begin{definition}{\textbf{Independent} Events}
+        Let $A,B\in\mF$. We say $A,B$ are \emph{independent} if
+        \begin{equation*}
+            \PP\left( A\cap B \right) = \PP\left( A \right)\PP\left( B \right).
+        \end{equation*}
+
+        Moreover, we say $A_1,\ldots,A_n\in\mF$ are \emph{mutually independent} if
+        \begin{equation*}
+            \PP\left( \bigcap^{}_{i\in I} A_i \right) = \prod^{}_{i\in I} \PP\left( A_i \right), \hspace{1cm}\forall I\subseteq\left\lbrace 1,\ldots,n \right\rbrace.
+        \end{equation*}
+
+        We say $\mA\subseteq\mF$ is \emph{independent} if for every finite $\mB\subseteq\mA$,
+        \begin{equation*}
+            \PP\left( \bigcap^{}_{B\in\mB} B \right) = \prod^{}_{B\in\mB}\PP\left( B \right).
+        \end{equation*}
+
+        We say $\left\lbrace \mA_{\theta} \right\rbrace^{}_{\theta\in\Theta}\subseteq\mP\left( \mF \right)$ is \emph{independent} if, given any $A_{\theta}\in\mA_{\theta}$ for all $\theta\in\Theta$, $\left\lbrace A_\theta \right\rbrace^{}_{\theta\in\Theta}$ is independent.
+    \end{definition}
+
+    \np Let $A,B\in\mF$. If $\PP\left( A \right) > 0$, then $A,B$ are independent if and only if $\PP\left( B|A \right) = \PP\left( B \right)$.
+
+    \np Mutual independence is stronger than 
+    \begin{enumerate}
+        \item pairwise independence: $A_i, A_j$ are independet for all $i\neq j$; and
+        \item $\PP\left( \bigcap^{n}_{i=1}A_i \right) = \prod^{n}_{i=1}\PP\left( A_i \right)$.
+    \end{enumerate}
+
+    \begin{definition}{\textbf{Independent} $\sigma$-fields}
+        Let $\mF_{\theta}$, $\theta\in\Theta$, be $\sigma$-fields on $\Omega$. We say $\mF_{\theta}$, $\theta\in\Theta$, are \emph{independent} if every $A_{\theta}\in\mF_{\theta}$, $\theta\in\Theta$, are independent.
+    \end{definition}
+    
+    \begin{prop}{}
+        Suppose that $\left\lbrace \mA_{\theta} \right\rbrace^{}_{\theta\in\Theta}\subseteq\mP\left( \mF \right)$ is independent and suppose each $\mA_{\theta}$ is a $\pi$-system. Then $\sigma\left( \mA_{\theta} \right)$'s are independent.
+    \end{prop}
+
+    \rruleline
+    
+    \begin{prop}{}
+        Let
+        \begin{equation*}
+            \begin{matrix}
+                A_{1,1} & A_{1,2} & \cdots \\
+            	A_{2,1} & A_{2,2} & \cdots \\
+            	\vdots & \vdots & \ddots \\
+            \end{matrix}
+        \end{equation*}
+        be an (infinite) array of independent events. If $\mF_i$ is the $\sigma$-field generated by the $i$th row (i.e. $\mF_i = \sigma\left( \left\lbrace A_{i,j} \right\rbrace_{j\in\N} \right)$), then $\mF_1,\ldots$ are independent.
+    \end{prop}
+
+    \begin{proof}
+        Let
+        \begin{equation*}
+            \mA_i = \left\lbrace \bigcap^{}_{j\in J}A_{i,j} : J\subseteq\N, \left| J \right|<\infty \right\rbrace,
+        \end{equation*}
+        the collection of all finite intersections of sets in the $i$th row. Then each $\mA_i$ is a $\pi$-system with $\sigma\left( \mA_i \right) = \mF_i$. By Proposition 2.4, it remains to show that $\left\lbrace \mA_i \right\rbrace^{}_{i\in\N}$ are independent.
+
+        Let $I\subseteq\N$ be any finite set of indices. For all $i\in I$, let $C_i\in\mA_i$. That is, there is finite $J_i\subseteq\N$ such that
+        \begin{equation*}
+            C_i = \bigcap^{}_{j\in J_i} A_{i,j}.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \PP\left( \bigcap^{}_{i\in I}C_i \right) = \PP\left( \bigcap^{}_{i\in I} \bigcap^{}_{j\in J_i}A_{i,j} \right) = \prod^{}_{i\in I} \prod^{}_{j\in J_i} \PP\left( A_{i,j} \right) = \prod^{}_{i\in I} \PP\left( \bigcap^{}_{j\in J_i}A_{i,j} \right) = \prod^{}_{i\in I}\PP\left( C_i \right).
+        \end{equation*}
+        Thus $\left\lbrace \mA_i \right\rbrace^{}_{i\in\N}$ is independent, as required.
+    \end{proof}
+    
+    \begin{theorem}{First Borel-Cantelli Lemma}
+        Let $\left( A_{n} \right)^{\infty}_{n=1}\in\mF^{\N}$. If $\sum^{\infty}_{n=1} \PP\left( A_n \right) < \infty$, then
+        \begin{equation*}
+            \PP\left( \limsup_{n\to\infty}A_n \right) = 0.
+        \end{equation*}
+    \end{theorem}
+
+    \begin{proof}
+        Recall that $\limsup_{n\to\infty} A_n = \bigcap^{\infty}_{n=1}\bigcup^{\infty}_{k=n}A_k$.
+
+        For any $m\in\N$, it follows that
+        \begin{equation*}
+            \limsup_{n\to\infty} A_n \subseteq \bigcup^{\infty}_{k=m} A_k.
+        \end{equation*}
+        Hence
+        \begin{equation*}
+            \PP\left( \limsup_{n\to\infty}A_n \right) \leq \PP\left( \bigcup^{\infty}_{k=m}A_k \right) \leq \sum^{\infty}_{k=m} \PP\left( A_k \right).
+        \end{equation*}
+        But we know $\sum^{\infty}_{n=1} \PP\left( A_k \right)$ converges, so by letting $m\to\infty$, we see that
+        \begin{equation*}
+            \PP\left( \limsup_{n\to\infty}A_n \right) \leq \lim_{m\to\infty}\sum^{\infty}_{k=m}\PP\left( A_k \right) = 0.
+        \end{equation*}
+        Thus $\PP\left( \limsup_{n\to\infty}A_n \right)=0$, as required.
+    \end{proof}
+
+    \clearpage
+
+    \begin{theorem}{Second Borel-Cantelli Lemma}
+        Let $\left( A_{n} \right)^{\infty}_{n=1}\mF^{\N}$ be independent.\footnotemark[1] If $\sum^{\infty}_{n=1}\PP\left( A_n \right)=\infty$, then
+        \begin{equation*}
+            \PP\left( \limsup_{n\to\infty} A_n \right) = 1.
+        \end{equation*}
+        
+        \noindent
+        \begin{minipage}{\textwidth}
+            \footnotetext[1]{This independence condition is crucial. As an exercise, find $\left( A_{n} \right)^{\infty}_{n=1}$ that is not independent with $\sum^{\infty}_{n=1}\PP\left( A_n \right)=\infty$ but $\PP\left( \limsup_{n\to\infty}A_n \right)<1$.}
+        \end{minipage}
+    \end{theorem}
+    
+    \begin{proof}
+        By definition $\limsup_{n\to\infty}A_n = \bigcap^{\infty}_{n=1}\bigcup^{\infty}_{k=n}A_k$, it suffices to prove
+        \begin{equation*}
+            \PP\left( \Omega\setminus \left( \bigcap^{\infty}_{n=1}\bigcup^{\infty}_{k=n}A_k \right) \right) = 0.
+        \end{equation*}
+        Note that 
+        \begin{equation*}
+            \Omega\setminus \left( \bigcap^{\infty}_{n=1}\bigcup^{\infty}_{k=n}A_k \right) = \bigcup^{\infty}_{n=1}\bigcap^{\infty}_{k=n} \left( \Omega\setminus A_k \right).
+        \end{equation*}
+
+        \begin{claim}
+            \textit{For all $n\in\N$, $\PP\left( \bigcap^{\infty}_{k=n} \Omega\setminus A_k \right) = 0$.}
+
+            Let $N>n$. Then
+            \begin{equation*}
+                \PP\left( \bigcap^{N}_{k=n}\Omega\setminus A_k \right) = \prod^{N}_{k=n}\PP\left( \Omega\setminus A_k \right) = \prod^{N}_{k=n} \left( 1-\PP\left( A_k \right) \right) \leq \prod^{N}_{k=n} e^{-\PP\left( A_k \right)} = e^{-\sum^{N}_{k=n}\PP\left( A_k \right)}
+            \end{equation*}
+            by using the fact that $e^{-x}\geq 1-x$ for all $x\in\R$. It follows that
+            \begin{equation*}
+                \lim_{N\to\infty} \PP\left( \bigcap^{N}_{k=n} \Omega\setminus A_k \right) = \lim_{N\to\infty} e^{-\sum^{N}_{k=n}\PP\left( A_k \right)} = e^{\lim_{N\to\infty}-\sum^{N}_{k=n}\PP\left( A_k \right)} = 0,
+            \end{equation*}
+            since $\lim_{N\to\infty}-\sum^{N}_{k=n}\PP\left( A_k \right)=-\infty$. But $\left( \bigcap^{N}_{k=n}\Omega\setminus A_k \right)^{\infty}_{N>n}$ is a decreasing chain, so by the continuity from above,
+            \begin{equation*}
+                \PP\left( \bigcap^{\infty}_{k=n}\Omega\setminus A_k \right) =0.
+            \end{equation*}
+
+            \hfill\textit{(End of Claim 1)}
+        \end{claim}
+
+        Since countable union of null events is again null, the desired equality
+        \begin{equation*}
+            \PP\left( \Omega\setminus \left( \bigcap^{\infty}_{n=1}\bigcup^{\infty}_{k=n}A_k \right) \right) = 0
+        \end{equation*}
+        follows.
+    \end{proof}
+        
+    \begin{example}{}
+        Suppose that we have balls $1,\ldots,n$ at time $n$ and we choose a ball at each time. Given $k\in\N$, how many times will ball $k$ be picked in total?
+    \end{example}
+
+    \begin{answer}
+        Let $A_n$ be the event that ball $k$ picked at time $n$. Then
+        \begin{equation*}
+            \PP\left( A_n \right) = 
+            \begin{cases} 
+                0 & \text{if $n<k$} \\
+                \frac{1}{n} & \text{if $n\geq k$}
+            \end{cases},\hspace{1cm}\forall n\in\N.
+        \end{equation*}
+        Note that $\sum^{\infty}_{n=1} \PP\left( A_n \right) = \infty$. Hence by the second Borel-Cantelli lemma, $\PP\left( \limsup_{n\to\infty} A_n \right) = 1$. Thus the ball $k$ will be picked for infinite number of times $\PP$-almost surely.
+    \end{answer}
+
+    \clearpage
+
+    \begin{example}{}
+        Consider the setting of Example 2.1. Instead of heaving balls $1,\ldots,n$ at time $n$, we have balls $1,\ldots,2^n$. How many times will ball $k$ picked in total?
+    \end{example}
+
+    \begin{answer}
+        Note that
+        \begin{equation*}
+            \PP\left( A_n \right) = 
+            \begin{cases} 
+                0 & \text{if $2^n<k$} \\
+                \frac{1}{2^n} & \text{if $2^n\geq k$}
+            \end{cases},\hspace{1cm}\forall n\in\N.
+        \end{equation*}
+        This means $\sum^{\infty}_{n=1}\PP\left( A_n \right)<\infty$, so by the first Borel-Cantelli lemma, $\PP\left( \limsup_{n\to\infty}A_n \right) = 0$. Thus ball $k$ will be picked for finitely many times $\PP$-almost surely.
+    \end{answer}
+        
+    \begin{example}{DTMC}
+        In a \textit{discrete-time Marcov chain} (\textit{DTMC}), if a state $i$ is \textit{recurrent}, then the chain will visit $i$ infinitely many times almost surely, given that the chain visits $i$ at least once. If $i$ is \textit{transient}, then visiting $i$ infinitely many times happens with probability $0$.
+    \end{example}
+        
+    \rruleline
+
+    \np We introduce a notion leading to 0-1 laws.
+
+    \begin{definition}{\textbf{Tail $\sigma$-field} of Collection of Events}
+        Let $\left\lbrace A_n \right\rbrace^{\infty}_{n=1}\subseteq\mF$. We define the \emph{tail $\sigma$-field} of $\left\lbrace A_n \right\rbrace^{\infty}_{n=1}$, denoted as $\mT\left( \left\lbrace A_n \right\rbrace^{\infty}_{n=1} \right)$ (or $\mT$ when context is clear), by
+        \begin{equation*}
+            \mT = \bigcap^{\infty}_{n=1} \sigma\left( \left\lbrace A_k \right\rbrace^{\infty}_{k=n} \right).
+        \end{equation*}
+    \end{definition}
+        
+    \begin{example}{}
+        Let $\left\lbrace A_n \right\rbrace^{\infty}_{n=1}\subseteq\mF$. Recall that
+        \begin{equation*}
+            \limsup_{n\in\N} A_n = \bigcap^{\infty}_{n=1}\bigcup^{\infty}_{k=n} A_k.
+        \end{equation*}
+        In particular, $\bigcup^{\infty}_{k=n}A_k\in \sigma\left( \left\lbrace A_k \right\rbrace^{\infty}_{k=n} \right)$ for all $n\in\N$, so that $\limsup_{n\in\N} A_n\in\mT$.
+
+        Similarly, $\liminf_{n\in\N}A_n\in\mT$.
+    \end{example}
+
+    \rruleline
+
+    \begin{theorem}{Kolmogorov's 0-1 Law}
+        Let $\left\lbrace A_n \right\rbrace^{\infty}_{n=1}\subseteq\mF$ be independent and let $\mT$ be the tail $\sigma$-field of $\left\lbrace A_n \right\rbrace^{\infty}_{n=1}$. Then
+        \begin{equation*}
+            \PP\left( A \right) = 0 \text{ or } \PP\left( A \right) = 1,\hspace{1cm}\forall A\in\mT.
+        \end{equation*}
+        In words, \textit{events in the tail $\sigma$-field generated by independent events are trivial.}
+    \end{theorem}
+
+    \begin{proof}
+        Consider application of Proposition 2.5 to
+        \begin{equation*}
+            \begin{matrix}
+            	A_1 & A_2 & A_3 & \cdots \\
+            	A_2 & A_3 & A_4 & \cdots \\
+            	\vdots & \vdots & \vdots & \vdots \\
+                A_n & A_{n+1} & A_{n+2} & \cdots \\
+            	\vdots & \vdots & \vdots & \vdots \\
+            \end{matrix} .
+        \end{equation*}
+        In particular we see that, for all $n\in\N$,
+        \begin{equation*}
+            \sigma\left( A_1 \right), \ldots, \sigma\left( A_{n-1} \right), \sigma\left( A_n,A_{n+1},\ldots \right)
+        \end{equation*}
+        are independent. 
+
+        For any $A\in\mT$, $A\in\sigma\left( A_n,A_{n+1},\ldots \right)$ for any $n\in\N$. Hence $A$ is independent of $A_1,\ldots,A_n$. As this holds for all $A$, $\left( A,A_1,A_2,\ldots \right)$ is an independet sequence of events. This means $\sigma\left( A \right), \sigma\left( A_1,A_2,\ldots \right)$ are independent. However, we also have
+        \begin{equation*}
+            A\in\mT\subseteq\sigma\left( A_1,A_2,\ldots \right),
+        \end{equation*}
+        and $A\in\sigma\left( A \right)$. Thus $A$ is independent of itself, so that $\PP\left( A \right) = \PP\left( A \right)\PP\left( A \right)$, which happens if and only if $\PP\left( A \right) = 0$ or $\PP\left( A \right) = 1$.
+    \end{proof}
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+\end{document}

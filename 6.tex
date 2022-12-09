@@ -1,0 +1,86 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Probability Inequalities}
+
+    Fix a probability space $\left( \Omega,\mF,\PP \right)$.
+    
+    \subsection{Chebyshev's Inequality}
+
+    \begin{theorem}{Generalized Chebyshev's Inequality}
+        Let $X$ be a random variable and let $g$ be a nonnegative function. Let $B\in\mF$ and let
+        \begin{equation*}
+            l = \inf\left\lbrace g\left( x \right):x\in B \right\rbrace.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            l\PP\left( X\in B \right) \leq \EE\left( g\left( X \right) \right).
+        \end{equation*}
+    \end{theorem}
+    
+    \begin{proof}
+        Define
+        \begin{equation*}
+            Y = l\chi_B\left( X \right).
+        \end{equation*}
+        Then $Y\leq l\leq g\left( X \right)$, so that
+        \begin{equation*}
+            l\PP\left( X\in B \right) = \EE\left( Y \right) \leq \EE\left( g\left( X \right) \right).
+        \end{equation*}
+    \end{proof}
+    
+    \begin{cor}{Markov's Inequality}
+        In particular, if $X$ is a nonnegative random variable, then
+        \begin{equation*}
+            \PP\left( X\geq a \right)\leq \frac{\EE\left( X \right)}{a}, \hspace{1cm}\forall a>0.
+        \end{equation*}
+    \end{cor}	
+    
+    \rruleline
+    
+    \begin{cor}{}
+        Let $X$ be a random varaible. Then
+        \begin{equation*}
+            a^{2}\PP\left( \left| X \right|\geq a \right)\leq \EE\left( X^{2} \right)
+        \end{equation*}
+        and
+        \begin{equation*}
+            a^{2}\PP\left( \left| X-\EE\left( X \right) \right|\geq a \right)\leq\var\left( X \right).
+        \end{equation*}
+    \end{cor}	
+
+    \rruleline
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+\end{document}

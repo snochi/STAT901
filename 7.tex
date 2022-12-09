@@ -1,0 +1,301 @@
+\documentclass[stat901]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Several Random Variables}
+
+    \subsection{Independence}
+    
+    \begin{definition}{\textbf{Independent} Random Variables}
+        We say two random variables $X,Y$ are \emph{independent} if $\sigma\left( X \right)$ and $\sigma\left( Y \right)$ are independent.
+    \end{definition}
+
+    \np That is, for every Borel $A,B$, the preimages $X^{-1}\left( A \right)$ and $Y^{-1}\left( B \right)$ are independent:
+    \begin{equation*}
+        \PP\left( X\in A, Y\in B \right) = \PP\left( X\in A \right)\PP\left( Y\in B \right).
+    \end{equation*}
+    
+    More generally, random variables $X_1,\ldots,X_n$ are \emph{independent} if $\sigma\left( X_1 \right),\ldots,\sigma\left( X_n \right)$ are independent. That is,
+    \begin{equation*}
+        \PP\left( X_1\in A_1,\ldots,X_n\in A_n \right) = \prod^{n}_{k=1}\PP\left( X_k\in A_k \right), \hspace{1cm}\forall A_1,\ldots,A_n\in\Bor\left( \R \right).
+    \end{equation*}
+    
+    \begin{prop}{}
+        Let $X,Y$ be random variables and let $f,g$ be measurable. If $X,Y$ are independent, then so are $f\left( X \right),g\left( Y \right)$.
+    \end{prop}
+
+    \begin{proof}
+        For all $A,B\in\Bor\left( \R \right)$,
+        \begin{equation*}
+            \PP\left( f\left( X \right)\in A, g\left( Y \right)\in B \right) = \PP\left( X\in f^{-1}\left( A \right), Y\in g^{-1}\left( B \right) \right) = \PP\left( X\in f^{-1}\left( A \right) \right)\PP\left( Y\in g^{-1}\left( B \right) \right) = \PP\left( f\left( X \right) \right)\PP\left( g\left( Y \right) \right).
+        \end{equation*}
+    \end{proof}
+    
+    \begin{theorem}{}
+        Let $\mA_1,\mA_2$ be independent $\pi$-systems. Then so are $\sigma\left( \mA_1 \right),\sigma\left( \mA_2 \right)$.
+    \end{theorem}
+
+    \begin{proof}
+        Let $B_2\in\mA_2$. Define
+        \begin{equation*}
+            \mL = \left\lbrace B\in\mA_1 : \PP\left( B\cap B_2 \right) = \PP\left( B \right)\PP\left( B_2 \right) \right\rbrace.
+        \end{equation*}
+
+        \begin{claim}
+            \textit{$\mL$ is a $\lambda$-system.}
+
+            Observe that
+            \begin{equation*}
+                \PP\left( \emptyset\cap B_2 \right) = \PP\left( \emptyset \right) = \PP\left( B_2 \right)\PP\left( \emptyset \right).
+            \end{equation*}
+
+            If $B\in\mL$, then
+            \begin{equation*}
+                \PP\left( \left( \Omega\setminus B \right)\cap B_2 \right) = \cdots = \PP\left( \Omega\setminus B \right)\PP\left( B_2 \right)
+            \end{equation*}
+            so that $\Omega\setminus B\in\mL$.
+
+            Lastly, if $\left\lbrace A_n \right\rbrace^{\infty}_{n=1}\subseteq\mL$ is a collection of disjoint sets in $\mL$, then
+            \begin{equation*}
+                \PP\left( \bigcupdot^{\infty}_{n=1}A_n\cap B_2 \right) = \cdots = \PP\left( \bigcupdot^{\infty}_{n=1}A_n \right)\PP\left( B_2 \right),
+            \end{equation*}
+            so that $\bigcupdot^{\infty}_{n=1}A_n \in\mL$. 
+        \end{claim}
+
+        It is immediate that
+        \begin{equation*}
+            \mL\supseteq\mA_1,
+        \end{equation*}
+        so that
+        \begin{equation*}
+            \sigma\left( \mL \right)\supseteq\sigma\left( \mA_1 \right).
+        \end{equation*}
+        Since the above holds for any arbitrary choice of $B_2\in\mA_2$, it follows that any $B_1\in\sigma\left( \mA_1 \right)$ is independent of any $B_2\in\mA_2$. By symmetry, any $B_2\in\sigma\left( \mA_2 \right)$ is independent of any $B_1\in\mA_1$, as required.
+    \end{proof}
+
+    \subsection{Joint Distribution Function}
+
+    \begin{definition}{\textbf{Joint CDF} of Two Random Variables}
+        Let $X,Y$ be random variables. We define the \emph{joint cdf} of $X,Y$, denoted as $F_{X,Y}$, by
+        \begin{equation*}
+            F_{X,Y} = \PP\left( X\leq x, Y\leq y \right), \hspace{1cm}\forall x,y\in\R\cup\left\lbrace -\infty,\infty \right\rbrace.
+        \end{equation*}
+    \end{definition}
+
+    \np Let $\eta$ be the joint distribution of $\left( X,Y \right)$. That is,
+    \begin{equation*}
+        \eta\left( B \right) = \PP\left( \left( X,Y \right)\in B \right), \hspace{1cm}\forall B\in\mB\left( \R^{2} \right).
+    \end{equation*}
+    Then
+    \begin{equation*}
+        F_{X,Y}\left( x,y \right) = \eta\left( \left( -\infty,x \right]\times\left( -\infty,y \right] \right), \hspace{1cm}\forall x,y\in\R.
+    \end{equation*}
+    Then
+    \begin{equation*}
+        \begin{aligned}
+            \text{$X,Y$ are independent} & \iff F_{X,Y}\left( x,y \right) = F_X\left( x \right)F_Y\left( y \right),\hspace{1cm}\forall x,y\in\R \\
+                                         & \iff \PP\left( X\leq x, Y\leq y \right) = \PP\left( X\leq x \right)\PP\left( Y\leq y \right).
+        \end{aligned} 
+    \end{equation*}
+    
+    \begin{subproof}
+        ($\impliedby$) This direction is trivial.
+
+        ($\implies$) Note that $\left\lbrace \left\lbrace X\leq x \right\rbrace \right\rbrace^{}_{x\in\R}, \left\lbrace \left\lbrace Y\leq y \right\rbrace \right\rbrace^{}_{y\in\R}$ are $\pi$-systems that are independent. Hence
+        \begin{equation*}
+            \sigma\left( X \right) = \sigma\left( \left\lbrace \left\lbrace X\leq x \right\rbrace \right\rbrace_{x\in\R} \right)
+        \end{equation*}
+        and
+        \begin{equation*}
+            \sigma\left( Y \right) = \sigma\left( \left\lbrace \left\lbrace Y\leq y \right\rbrace \right\rbrace_{y\in\R} \right)
+        \end{equation*}
+        are independent.\hfill\textit{QED}
+    \end{subproof}
+
+    \np The same result can be shown in a more general setting: 
+        \begin{equation*}
+            \text{$X_1,\ldots,X_n$ are independent} \iff 
+            \PP\left( X_1\leq x_1,\ldots,X_n\leq x_n \right) = \prod^{n}_{i=1}\PP\left( X_i\leq x_i \right),\hspace{1cm}\forall x_1,\ldots,x_n\in\R.
+        \end{equation*}
+
+
+    \np If we let $\mu,\nu$ be the distributions of $X,Y$, respectively, then observe that
+    \begin{equation*}
+        \eta\left( \left( -\infty,x \right]\times\left( -\infty,y \right] \right) = \mu\left( \left( -\infty,x \right] \right)\eta\left( \left( -\infty,y \right] \right),\hspace{1cm}\forall x,y\in\R.
+    \end{equation*}
+    It follows that
+    \begin{equation*}
+        \eta\left( A\times B \right) = \mu\left( A \right)\nu\left( B \right),\hspace{1cm}\forall A,B\in\Bor\left( \R \right).
+    \end{equation*}
+    This implies that if $X,Y$ are independent, then
+    \begin{equation*}
+        \EE\left( h\left( X,Y \right) \right) = \int hd\eta = \int hd\left( \mu\times\nu \right) = \iint hd\mu d\nu
+    \end{equation*}
+    for any measurable $h:\R^{2}\to\R$ with $h\geq 0$ or $\EE\left( \left| h\left( X,Y \right) \right| \right)<\infty$.
+    
+    \begin{prop}{}
+        Let $X_1,\ldots,X_n$ be independent random variables. If
+        \begin{equation*}
+            X_i\geq 0,\hspace{1cm}\forall i\in\left[ 1,\ldots,n \right]
+        \end{equation*}
+        or
+        \begin{equation*}
+            \EE\left( \left| X_i \right| \right) < \infty,\hspace{1cm}\forall i\in\left\lbrace 1,\ldots,n \right\rbrace,
+        \end{equation*}
+        then
+        \begin{equation*}
+            \EE\left( \prod^{n}_{i=1}X_i \right) = \prod^{n}_{i=1} \EE\left( X_i \right).
+        \end{equation*}
+    \end{prop}
+
+    \clearpage
+
+    \begin{proof}
+        We consider the case $n=2$.
+
+        By defining 
+        \begin{equation*}
+            \begin{aligned}
+                h:\R^{2}&\to\R \\ 
+                \left( x,y \right)&\mapsto xy
+            \end{aligned} ,
+        \end{equation*}
+        note that $XY = h\left( X,Y \right)$. Hence
+        \begin{equation*}
+            \EE\left( h\left( X,Y \right) \right) = \int hd\eta = \iint hd\mu d\nu = \int x\mu\left( dx \right) \int y\nu\left( dy \right) = \EE\left( X \right)\EE\left( Y \right).
+        \end{equation*}
+    \end{proof}
+    
+    \subsection{Covariance and Correlation}
+
+    \begin{definition}{\textbf{Covariance} of Two Random Variables}
+        Let $X,Y$ be random variables. We define the \emph{covariance} of $X,Y$, denoted as $\cov\left( X,Y \right)$, by
+        \begin{equation*}
+            \cov\left( X,Y \right) = \EE\left( \left( X-\EE\left( X \right) \right)\left( Y-\EE\left( Y \right) \right) \right)
+        \end{equation*}
+        provided that the related quantities are well-defined.
+    \end{definition}
+
+    \np Note that
+    \begin{equation*}
+        \cov\left( X,Y \right) = \cdots = \EE\left( XY \right)-\EE\left( X \right)\EE\left( Y \right).
+    \end{equation*}
+    
+    \begin{definition}{\textbf{Correlation} of Two Random Variables}
+        Let $X,Y$ be random variables. We define the \emph{correlation} of $X,Y$, denoted as $\corr\left( X,Y \right)$, by
+        \begin{equation*}
+            \corr\left( X,Y \right) = \frac{\cov\left( X,Y \right)}{\sqrt{\var\left( X \right)\var\left( Y \right)}}.
+        \end{equation*}
+        We say $X,Y$ are \emph{uncorrelated} if $\corr\left( X,Y \right)=0$.
+    \end{definition}
+
+    \np If $X,Y$ are independent random variables, then
+    \begin{equation*}
+        \EE\left( XY \right) = \EE\left( X \right)\EE\left( Y \right) \implies \cov\left( X,Y \right) = 0.
+    \end{equation*}
+    Hence
+    \begin{equation*}
+        \text{$X,Y$ are independent} \implies \text{$X,Y$ are uncorrelated}
+    \end{equation*}
+    provided that the related quantities are well-defined.
+    
+    That is, if $X,Y$ or $XY$ does not have finite expectation, then $\cov\left( X,Y \right)$ is not defined, so we cannot talk about correlation of $X,Y$. 
+
+    The other direction does not hold (i.e. uncorrelatedness does not imply independence).
+
+    \begin{example}{}
+        Consider $X\sim\normaldis\left( 0,1 \right), Y = \left| X \right|$. Then $\corr\left( X,Y \right) = 0$ but $X,Y$ are not independent.
+    \end{example}
+
+    \rruleline
+    
+    \begin{theorem}{}
+        Let $X,Y$ be random variables.
+        \begin{enumerate}
+            \item $\var\left( X+Y \right) = \var\left( X \right)+\var\left( Y \right)+2\cov\left( X,Y \right)$.
+            \item If $X,Y$ are independent, then $\var\left( X+Y \right) = \var\left( X \right)+\var\left( Y \right)$.
+            \item $\left| \cov\left( X,Y \right) \right|\leq \sqrt{\var\left( X \right)\var\left( Y \right)}$. Consequently, $\corr\left( X,Y \right)\in\left[ -1,1 \right]$.
+        \end{enumerate}
+    \end{theorem}
+
+    \begin{proof}
+        \begin{enumerate}
+            \item Note that
+                \begin{equation*}
+                    \begin{aligned}
+                        \var\left( X+Y \right) & = \EE\left( \left( \left( X+Y \right)-\EE\left( X+Y \right) \right)^{2} \right) = \EE\left( \left( X-\EE\left( X \right)+\left( Y-\EE\left( Y \right) \right) \right)^{2} \right) \\
+                                               & = \EE\left( \left( X-\EE\left( X \right) \right)^{2} \right)+\EE\left( \left( Y-\EE\left( Y \right) \right)^{2} \right) + 2\EE\left( \left( X-\EE\left( X \right) \right)\left( Y-\EE\left( Y \right) \right) \right) = \var\left( X \right)+\var\left( Y \right)+2\cov\left( X,Y \right).
+                    \end{aligned} 
+                \end{equation*}
+            \item Note that $\cov\left( X,Y \right)=0$.
+
+            \item Use Holder's inequality. An alternative proof can be given as follows. Note that
+                \begin{equation*}
+                    \var\left( aX-Y \right) = a^{2}\var\left( X \right)-2a\cov\left( X,Y \right)+\var\left( Y \right)\geq 0, \hspace{1cm}\forall a\in\R,
+                \end{equation*}
+                which means
+                \begin{equation*}
+                    \left( 2\cov\left( X,Y \right) \right)^{2} - 4\var\left( X \right)\var\left( Y \right)\leq 0.
+                \end{equation*}
+                The result follows.
+        \end{enumerate}
+    \end{proof}
+    
+    \begin{example}{Binomial Distribution}
+        Let $X\sim\binomdis\left( n,p \right)$. That is,
+        \begin{equation*}
+            \PP\left( X=k \right) = \binom{n}{k} p^k\left( 1-p \right)^{n-k}, \hspace{1cm}\forall k\in\left\lbrace 0,\ldots,n \right\rbrace,
+        \end{equation*}
+        which is the distribution of the number of successes in $n$ independent Bernoulli trials, each with success probability $p$. As a result,
+        \begin{equation*}
+            X \overset{\text{d}}{=} Y_1+\cdots+Y_n,
+        \end{equation*}
+        where
+        \begin{equation*}
+            Y_1,\ldots,Y_n\overset{\text{iid}}{\sim}\berdis\left( p \right).
+        \end{equation*}
+        Hence
+        \begin{equation*}
+            \EE\left( X \right) = \sum^{n}_{i=1}\EE\left( Y_i \right) = np
+        \end{equation*}
+        and
+        \begin{equation*}
+            \var\left( X \right) = \sum^{n}_{i=1}\var\left( Y_i \right) = np\left( 1-p \right).
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+\end{document}
